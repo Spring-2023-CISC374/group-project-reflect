@@ -4,6 +4,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	private switches?: Phaser.Physics.Arcade.Group;
 	private switchesA?: Phaser.Physics.Arcade.Group;
 	private buttons?: Phaser.Physics.Arcade.Group;
+	private buttonsA?: Phaser.Physics.Arcade.Group;
 	private platforms?: Phaser.Physics.Arcade.StaticGroup;
 	private player?: Phaser.Physics.Arcade.Sprite;
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -88,25 +89,43 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.physics.add.overlap(this.switchesA, this.switches, this.handleSwitchSetup, undefined, this)
 		this.physics.add.overlap(this.switchesA, this.player, this.handleHitSwitchA, undefined, this)
 
+		//Code related to buttons
 		this.buttons = this.physics.add.group({
 			key: "button",
 			setXY: {x:440, y:450}
 		})
 		this.physics.add.collider(this.buttons, this.platforms)
-		this.physics.add.overlap(this.player, this.buttons, this.handleHitButon, undefined, this)
+		this.physics.add.overlap(this.player, this.buttons, this.handleHitButton, undefined, this)
+
+		this.buttonsA = this.physics.add.group({
+			key: "buttonA",
+				setXY: {x:440, y:450}
+			})
+			this.physics.add.collider(this.buttonsA, this.platforms)
+	
+			this.physics.add.overlap(this.buttonsA, this.buttons, this.handleButtonSetup, undefined, this)
+			this.physics.add.overlap(this.buttonsA, this.player, this.handleHitButtonA, undefined, this)
+	
 		
 		
 	}
 //Handle buttons
-	private handleHitButon(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
+	private handleHitButton(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
 			
 		}
+	private handleButtonSetup(bA: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
+		const the_button = bA as Phaser.Physics.Arcade.Image
+		the_button.visible = false
+	}
+	private handleHitButtonA(player: Phaser.GameObjects.GameObject, bA:Phaser.GameObjects.GameObject){
+		const the_button = bA as Phaser.Physics.Arcade.Image
+		the_button.visible = true
+	}
 //Handle switches
 private handleSwitchSetup(sA: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
 	const the_switch = sA as Phaser.Physics.Arcade.Image
 	the_switch.visible = false
 }
-
 private handleHitSwitch(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
 	const the_switch = s as Phaser.Physics.Arcade.Image
 	the_switch.disableBody(true,true)
