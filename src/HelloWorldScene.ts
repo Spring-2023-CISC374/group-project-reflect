@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
 export default class HelloWorldScene extends Phaser.Scene {
+    //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
     private switchesA?: Phaser.Physics.Arcade.Group;
     private buttons?: Phaser.Physics.Arcade.Group;
@@ -8,7 +9,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-	//sence transition
+	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
 
     constructor() {
@@ -34,20 +35,29 @@ export default class HelloWorldScene extends Phaser.Scene {
     create() {
         //Makes sky box
         this.add.image(400, 300, 'sky');
-        // add next text
+        //Carries the text from one scene to another
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
+
         // Code Related to platforms
+
+        //Add Base Ground
         this.platforms = this.physics.add.staticGroup()
         const ground = this.platforms.create(400, 568, "ground") as Phaser.Physics.Arcade.Sprite
         ground.setScale(2)
         ground.refreshBody()
-        //Add Platform(s)
 
-        //this.platforms.create(600,400,"ground")
+
+        //Add Higher Ground for the other sprite
+        this.platforms.create(400, 280,"ground")
+        this.platforms.create(200, 280,"ground")
+        this.platforms.create(600, 280,"ground")
+
+        //Add additional platforms
+        this.platforms.create(300, 530, "ground")
 
         //Code related to the player
         this.player = this.physics.add.sprite(100, 430, "dude")
-        this.player.setBounce(0.2)
+        this.player.setBounce(0.1)
         this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.platforms)
 
@@ -87,26 +97,32 @@ export default class HelloWorldScene extends Phaser.Scene {
         })
 
 
+        //Allow for key presses
         this.cursors = this.input.keyboard.createCursorKeys()
 
         //Code related to switches
         this.switches = this.physics.add.group({
             key: "switch",
-            setXY: { x: 240, y: 450 }
+            setXY: { x: 400, y: 500 }
         })
         this.physics.add.collider(this.switches, this.platforms)
         this.physics.add.overlap(this.player, this.switches, this.handleHitSwitch, undefined, this)
 
         this.switchesA = this.physics.add.group({
             key: "switchA",
-            setXY: { x: 240, y: 450 }
+            setXY: { x: 400, y: 500 }
         })
         this.physics.add.collider(this.switchesA, this.platforms)
 
         this.physics.add.overlap(this.switchesA, this.switches, this.handleSwitchSetup, undefined, this)
         this.physics.add.overlap(this.switchesA, this.player, this.handleHitSwitchA, undefined, this)
+        
+        // Here you can make new switches without having to call anything else - BN
+        //this.switches.create(400, 510,"switch")
+        //this.switchesA.create(400, 510,"switchA")
+        //
 
-        // for sence transition
+        // for scene transition
         if (this.nextScene) {
             this.tweens.add({
                 targets: this.nextScene,
@@ -123,20 +139,24 @@ export default class HelloWorldScene extends Phaser.Scene {
         //Code related to buttons
         this.buttons = this.physics.add.group({
             key: "button",
-            setXY: { x: 440, y: 450 }
+            setXY: { x: 480, y: 250 }
         })
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player, this.buttons, this.handleHitButton, undefined, this)
 
         this.buttonsA = this.physics.add.group({
             key: "buttonA",
-            setXY: { x: 440, y: 450 }
+            setXY: { x: 480, y: 250 }
         })
         this.physics.add.collider(this.buttonsA, this.platforms)
 
         this.physics.add.overlap(this.buttonsA, this.buttons, this.handleButtonSetup, undefined, this)
         this.physics.add.overlap(this.buttonsA, this.player, this.handleHitButtonA, undefined, this)
 
+        // Here you can make new buttons without having to call anything else - BN
+        this.buttons.create(300, 500,"button")
+        this.buttonsA.create(300, 500,"buttonA")
+        //
 
     }
 
@@ -192,7 +212,12 @@ export default class HelloWorldScene extends Phaser.Scene {
         } else if (this.cursors?.right.isDown) {
             this.player?.setVelocityX(160)
             this.player?.anims.play("right", true)
-        } else {
+        }
+        else if(this.cursors?.down.isDown){
+            this.player?.setVelocityY(400);
+            this.player?.anims.play('turn', true)
+        }
+        else {
             this.player?.setVelocityX(0)
             this.player?.anims.play("turn")
         }
