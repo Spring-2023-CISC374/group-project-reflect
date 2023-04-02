@@ -1,18 +1,17 @@
 import Phaser from 'phaser'
 
-export default class HelloWorldScene extends Phaser.Scene {
-    private switches?: Phaser.Physics.Arcade.Group;
-    private switchesA?: Phaser.Physics.Arcade.Group;
-    private buttons?: Phaser.Physics.Arcade.Group;
-    private buttonsA?: Phaser.Physics.Arcade.Group;
+export default class TwoScene extends Phaser.Scene {
+    //private switches?: Phaser.Physics.Arcade.Group;
+    //private switchesA?: Phaser.Physics.Arcade.Group;
+    //private buttons?: Phaser.Physics.Arcade.Group;
+    //private buttonsA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-	//sence transition
     private nextScene?: Phaser.GameObjects.Text;
 
     constructor() {
-        super('hello-world')
+        super('TwoScene')
     }
 
     preload() {
@@ -89,95 +88,30 @@ export default class HelloWorldScene extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys()
 
-        //Code related to switches
-        this.switches = this.physics.add.group({
-            key: "switch",
-            setXY: { x: 240, y: 450 }
-        })
-        this.physics.add.collider(this.switches, this.platforms)
-        this.physics.add.overlap(this.player, this.switches, this.handleHitSwitch, undefined, this)
-
-        this.switchesA = this.physics.add.group({
-            key: "switchA",
-            setXY: { x: 240, y: 450 }
-        })
-        this.physics.add.collider(this.switchesA, this.platforms)
-
-        this.physics.add.overlap(this.switchesA, this.switches, this.handleSwitchSetup, undefined, this)
-        this.physics.add.overlap(this.switchesA, this.player, this.handleHitSwitchA, undefined, this)
-
-        // for sence transition
+        // loop tween anim
         if (this.nextScene) {
             this.tweens.add({
                 targets: this.nextScene,
-                x: this.nextScene.x + 10, 
-                duration: 500, 
-                ease: 'Sine.ease', 
-                yoyo: true, 
-                repeat: -1, 
+                x: this.nextScene.x + 10,
+                duration: 500,
+                ease: 'Sine.ease',
+                yoyo: true,
+                repeat: -1,
             });
         }
         this.physics.add.collider(this.nextScene, this.platforms)
         this.physics.add.overlap(this.nextScene, this.player, this.handleLoadNextScene, undefined, this)
 
-        //Code related to buttons
-        this.buttons = this.physics.add.group({
-            key: "button",
-            setXY: { x: 440, y: 450 }
-        })
-        this.physics.add.collider(this.buttons, this.platforms)
-        this.physics.add.overlap(this.player, this.buttons, this.handleHitButton, undefined, this)
-
-        this.buttonsA = this.physics.add.group({
-            key: "buttonA",
-            setXY: { x: 440, y: 450 }
-        })
-        this.physics.add.collider(this.buttonsA, this.platforms)
-
-        this.physics.add.overlap(this.buttonsA, this.buttons, this.handleButtonSetup, undefined, this)
-        this.physics.add.overlap(this.buttonsA, this.player, this.handleHitButtonA, undefined, this)
-
 
     }
 
-    //Handle buttons
-    private handleHitButton(player: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
-
-    }
-
-    private handleButtonSetup(bA: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
-        const the_button = bA as Phaser.Physics.Arcade.Image
-        the_button.visible = false
-    }
-
-    private handleHitButtonA(player: Phaser.GameObjects.GameObject, bA: Phaser.GameObjects.GameObject) {
-        const the_button = bA as Phaser.Physics.Arcade.Image
-        the_button.visible = true
-    }
-
-    //Handle switches
-    private handleSwitchSetup(sA: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
-        const the_switch = sA as Phaser.Physics.Arcade.Image
-        the_switch.visible = false
-    }
-
-    private handleHitSwitch(player: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
-        const the_switch = s as Phaser.Physics.Arcade.Image
-        the_switch.disableBody(true, true)
-    }
-
-    private handleHitSwitchA(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-        const the_switch = sA as Phaser.Physics.Arcade.Image
-        the_switch.visible = true
-    }
-
-	// sence transition
+    // scene
     private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-        this.scene.start('TwoScene')
+        this.scene.start('ThreeScene')
     }
-	//ThreeScene
-	//private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-        //this.scene.start('ThreeScene')
+    //ThreeScene
+    //private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
+    //this.scene.start('ThreeScene')
     //}
 
 
