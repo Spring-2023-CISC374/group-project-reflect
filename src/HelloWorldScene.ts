@@ -7,7 +7,8 @@ export default class HelloWorldScene extends Phaser.Scene {
     private buttons?: Phaser.Physics.Arcade.Group;
     private buttonsA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
-    private player?: Phaser.Physics.Arcade.Sprite;
+    private player1?: Phaser.Physics.Arcade.Sprite;
+    private player2?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
@@ -55,11 +56,16 @@ export default class HelloWorldScene extends Phaser.Scene {
         //Add additional platforms
         this.platforms.create(300, 530, "ground")
 
-        //Code related to the player
-        this.player = this.physics.add.sprite(100, 430, "dude")
-        this.player.setBounce(0.1)
-        this.player.setCollideWorldBounds(true)
-        this.physics.add.collider(this.player, this.platforms)
+        //Code related to the players
+        this.player1 = this.physics.add.sprite(100, 430, "dude")
+        this.player1.setBounce(0.1)
+        this.player1.setCollideWorldBounds(true)
+        this.physics.add.collider(this.player1, this.platforms)
+
+        this.player2 = this.physics.add.sprite(100, 230, "dude")
+        this.player2.setBounce(0.1)
+        this.player2.setCollideWorldBounds(true)
+        this.physics.add.collider(this.player2, this.platforms)
 
         this.anims.create({
             key: "left",
@@ -106,7 +112,8 @@ export default class HelloWorldScene extends Phaser.Scene {
             setXY: { x: 400, y: 500 }
         })
         this.physics.add.collider(this.switches, this.platforms)
-        this.physics.add.overlap(this.player, this.switches, this.handleHitSwitch, undefined, this)
+        this.physics.add.overlap(this.player1, this.switches, this.handleHitSwitch1, undefined, this)
+        this.physics.add.overlap(this.player2, this.switches, this.handleHitSwitch2, undefined, this)
 
         this.switchesA = this.physics.add.group({
             key: "switchA",
@@ -115,7 +122,8 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.collider(this.switchesA, this.platforms)
 
         this.physics.add.overlap(this.switchesA, this.switches, this.handleSwitchSetup, undefined, this)
-        this.physics.add.overlap(this.switchesA, this.player, this.handleHitSwitchA, undefined, this)
+        this.physics.add.overlap(this.switchesA, this.player1, this.handleHitSwitchA1, undefined, this)
+        this.physics.add.overlap(this.switchesA, this.player2, this.handleHitSwitchA2, undefined, this)
         
         // Here you can make new switches without having to call anything else - BN
         //this.switches.create(400, 510,"switch")
@@ -134,7 +142,8 @@ export default class HelloWorldScene extends Phaser.Scene {
             });
         }
         this.physics.add.collider(this.nextScene, this.platforms)
-        this.physics.add.overlap(this.nextScene, this.player, this.handleLoadNextScene, undefined, this)
+        this.physics.add.overlap(this.nextScene, this.player1, this.handleLoadNextScene, undefined, this)
+        this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
 
         //Code related to buttons
         this.buttons = this.physics.add.group({
@@ -142,7 +151,8 @@ export default class HelloWorldScene extends Phaser.Scene {
             setXY: { x: 480, y: 250 }
         })
         this.physics.add.collider(this.buttons, this.platforms)
-        this.physics.add.overlap(this.player, this.buttons, this.handleHitButton, undefined, this)
+        this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
+        this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
 
         this.buttonsA = this.physics.add.group({
             key: "buttonA",
@@ -151,7 +161,9 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.collider(this.buttonsA, this.platforms)
 
         this.physics.add.overlap(this.buttonsA, this.buttons, this.handleButtonSetup, undefined, this)
-        this.physics.add.overlap(this.buttonsA, this.player, this.handleHitButtonA, undefined, this)
+        this.physics.add.overlap(this.buttonsA, this.player1, this.handleHitButton1, undefined, this)
+        this.physics.add.overlap(this.buttonsA, this.player2, this.handleHitButton2, undefined, this)
+
 
         // Here you can make new buttons without having to call anything else - BN
         this.buttons.create(300, 500,"button")
@@ -161,7 +173,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     }
 
     //Handle buttons
-    private handleHitButton(player: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
+    private handleHitButton(player1: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
 
     }
 
@@ -170,7 +182,12 @@ export default class HelloWorldScene extends Phaser.Scene {
         the_button.visible = false
     }
 
-    private handleHitButtonA(player: Phaser.GameObjects.GameObject, bA: Phaser.GameObjects.GameObject) {
+    private handleHitButton1(player1: Phaser.GameObjects.GameObject, bA: Phaser.GameObjects.GameObject) {
+        const the_button = bA as Phaser.Physics.Arcade.Image
+        the_button.visible = true
+    }
+
+    private handleHitButton2(player2: Phaser.GameObjects.GameObject, bA: Phaser.GameObjects.GameObject) {
         const the_button = bA as Phaser.Physics.Arcade.Image
         the_button.visible = true
     }
@@ -181,12 +198,22 @@ export default class HelloWorldScene extends Phaser.Scene {
         the_switch.visible = false
     }
 
-    private handleHitSwitch(player: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
+    private handleHitSwitch1(player1: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
         const the_switch = s as Phaser.Physics.Arcade.Image
         the_switch.disableBody(true, true)
     }
 
-    private handleHitSwitchA(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
+    private handleHitSwitch2(player2: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
+        const the_switch = s as Phaser.Physics.Arcade.Image
+        the_switch.disableBody(true, true)
+    }
+
+    private handleHitSwitchA1(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
+        const the_switch = sA as Phaser.Physics.Arcade.Image
+        the_switch.visible = true
+    }
+
+    private handleHitSwitchA2(player2: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
         const the_switch = sA as Phaser.Physics.Arcade.Image
         the_switch.visible = true
     }
@@ -196,7 +223,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.scene.start('TwoScene')
     }
 	//ThreeScene
-	//private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
+	//private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
         //this.scene.start('ThreeScene')
     //}
 
@@ -207,23 +234,35 @@ export default class HelloWorldScene extends Phaser.Scene {
         }
 
         if (this.cursors?.left.isDown) {
-            this.player?.setVelocityX(-160)
-            this.player?.anims.play("left", true)
+            this.player1?.setVelocityX(-160)
+            this.player1?.anims.play("left", true)
+            this.player2?.setVelocityX(-160)
+            this.player2?.anims.play("left", true)
         } else if (this.cursors?.right.isDown) {
-            this.player?.setVelocityX(160)
-            this.player?.anims.play("right", true)
+            this.player1?.setVelocityX(160)
+            this.player1?.anims.play("right", true)
+            this.player2?.setVelocityX(160)
+            this.player2?.anims.play("right", true)
         }
         else if(this.cursors?.down.isDown){
-            this.player?.setVelocityY(400);
-            this.player?.anims.play('turn', true)
+            this.player1?.setVelocityY(400);
+            this.player1?.anims.play('turn', true)
+            this.player2?.setVelocityY(400);
+            this.player2?.anims.play('turn', true)
         }
         else {
-            this.player?.setVelocityX(0)
-            this.player?.anims.play("turn")
+            this.player1?.setVelocityX(0)
+            this.player1?.anims.play("turn")
+            this.player2?.setVelocityX(0)
+            this.player2?.anims.play("turn")
         }
 
-        if (this.cursors.up?.isDown && this.player?.body.touching.down) {
-            this.player.setVelocityY(-330)
+        if (this.cursors.up?.isDown && this.player1?.body.touching.down) {
+            this.player1.setVelocityY(-330)
+        }
+
+        if (this.cursors.up?.isDown && this.player2?.body.touching.down) {
+            this.player2.setVelocityY(-330)
         }
 
     }
