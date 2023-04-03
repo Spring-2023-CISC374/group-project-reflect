@@ -6,7 +6,8 @@ export default class ThreeScene extends Phaser.Scene {
     //private buttons?: Phaser.Physics.Arcade.Group;
     //private buttonsA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
-    private player?: Phaser.Physics.Arcade.Sprite;
+    private player1?: Phaser.Physics.Arcade.Sprite;
+    private player2?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private nextScene?: Phaser.GameObjects.Text;
 
@@ -45,10 +46,15 @@ export default class ThreeScene extends Phaser.Scene {
         //this.platforms.create(600,400,"ground")
 
         //Code related to the player
-        this.player = this.physics.add.sprite(100, 430, "dude")
-        this.player.setBounce(0.2)
-        this.player.setCollideWorldBounds(true)
-        this.physics.add.collider(this.player, this.platforms)
+        this.player1 = this.physics.add.sprite(100, 430, "dude")
+        this.player1.setBounce(0.1)
+        this.player1.setCollideWorldBounds(true)
+        this.physics.add.collider(this.player1, this.platforms)
+
+        this.player2 = this.physics.add.sprite(100, 230, "dude")
+        this.player2.setBounce(0.1)
+        this.player2.setCollideWorldBounds(true)
+        this.physics.add.collider(this.player2, this.platforms)
 
         this.anims.create({
             key: "left",
@@ -100,7 +106,9 @@ export default class ThreeScene extends Phaser.Scene {
             });
         }
         this.physics.add.collider(this.nextScene, this.platforms)
-        this.physics.add.overlap(this.nextScene, this.player, this.handleLoadNextScene, undefined, this)
+        this.physics.add.overlap(this.nextScene, this.player1, this.handleLoadNextScene, undefined, this)
+        this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
+
 
 
     }
@@ -109,6 +117,7 @@ export default class ThreeScene extends Phaser.Scene {
     private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
         this.scene.start('4Scene') //for 4Scene
     }
+
     //ThreeScene
     //private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
     //this.scene.start('ThreeScene')
@@ -121,18 +130,28 @@ export default class ThreeScene extends Phaser.Scene {
         }
 
         if (this.cursors?.left.isDown) {
-            this.player?.setVelocityX(-160)
-            this.player?.anims.play("left", true)
+            this.player1?.setVelocityX(-160)
+            this.player1?.anims.play("left", true)
+            this.player2?.setVelocityX(-160)
+            this.player2?.anims.play("left", true)
         } else if (this.cursors?.right.isDown) {
-            this.player?.setVelocityX(160)
-            this.player?.anims.play("right", true)
+            this.player1?.setVelocityX(160)
+            this.player1?.anims.play("right", true)
+            this.player2?.setVelocityX(160)
+            this.player2?.anims.play("right", true)
         } else {
-            this.player?.setVelocityX(0)
-            this.player?.anims.play("turn")
+            this.player1?.setVelocityX(0)
+            this.player1?.anims.play("turn")
+            this.player2?.setVelocityX(0)
+            this.player2?.anims.play("turn")
         }
 
-        if (this.cursors.up?.isDown && this.player?.body.touching.down) {
-            this.player.setVelocityY(-330)
+        if (this.cursors.up?.isDown && this.player1?.body.touching.down) {
+            this.player1.setVelocityY(-330)
+        }
+
+        if (this.cursors.up?.isDown && this.player2?.body.touching.down) {
+            this.player2.setVelocityY(-330)
         }
 
     }
