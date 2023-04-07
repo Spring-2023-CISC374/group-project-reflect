@@ -11,6 +11,9 @@ export default class TwoScene extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private nextScene?: Phaser.GameObjects.Text;
 
+    //reset
+    private resetText: Phaser.GameObjects.Text | undefined;
+
     constructor() {
         super('TwoScene')
     }
@@ -45,6 +48,8 @@ export default class TwoScene extends Phaser.Scene {
 
         //this.platforms.create(600,400,"ground")
 
+        //reset text top left
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
         //Code related to the player
         this.player1 = this.physics.add.sprite(100, 430, "dude")
         this.player1.setBounce(0.1)
@@ -110,6 +115,12 @@ export default class TwoScene extends Phaser.Scene {
         this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
 
 
+        // reset touchable
+        this.resetText.setInteractive();
+        // monitor reset
+        this.resetText.on('pointerdown', (pointer) => {
+          this.scene.restart();
+        });        
     }
 
     // scene

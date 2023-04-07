@@ -10,6 +10,8 @@ export default class ThreeScene extends Phaser.Scene {
     private player2?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private nextScene?: Phaser.GameObjects.Text;
+    //reset
+    private resetText: Phaser.GameObjects.Text | undefined;
 
     constructor() {
         super('ThreeScene')
@@ -45,6 +47,8 @@ export default class ThreeScene extends Phaser.Scene {
 
         //this.platforms.create(600,400,"ground")
 
+        //reset text top left
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
         //Code related to the player
         this.player1 = this.physics.add.sprite(100, 430, "dude")
         this.player1.setBounce(0.1)
@@ -109,13 +113,19 @@ export default class ThreeScene extends Phaser.Scene {
         this.physics.add.overlap(this.nextScene, this.player1, this.handleLoadNextScene, undefined, this)
         this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
 
+        // reset touchable
+        this.resetText.setInteractive();
+        // monitor reset
+        this.resetText.on('pointerdown', (pointer) => {
+          this.scene.restart();
+        });
 
 
     }
 
     // scene
     private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-        this.scene.start('4Scene') //for 4Scene
+        this.scene.start('FourScene') //for 4Scene
     }
 
     //ThreeScene
