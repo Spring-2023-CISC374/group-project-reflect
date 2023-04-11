@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Gate from 'Objects/Gate'
+import Gate from "./Objects/Gate";
 
 export default class HelloWorldScene extends Phaser.Scene {
     //Sprite creation
@@ -146,7 +146,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.collider(this.gates, this.player1)
         this.physics.add.collider(this.gates, this.player2)
 */
-        this.gates = new Gate
+        this.gates = new Gate(this.scene, 480, 250);
         // for scene transition
         if (this.nextScene) {
             this.tweens.add({
