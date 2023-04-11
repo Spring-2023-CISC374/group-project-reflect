@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Gate from 'Objects/Gate'
 
 export default class HelloWorldScene extends Phaser.Scene {
     //Sprite creation
@@ -6,6 +7,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private switchesA?: Phaser.Physics.Arcade.Group;
     private buttons?: Phaser.Physics.Arcade.Group;
     private buttonsA?: Phaser.Physics.Arcade.Group;
+    private gates?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player1?: Phaser.Physics.Arcade.Sprite;
     private player2?: Phaser.Physics.Arcade.Sprite;
@@ -25,6 +27,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.load.image("switchA", "assets/bomb.png");
         this.load.image("button", "assets/button.png");
         this.load.image("buttonA", "assets/buttonA.png");
+        this.load.image("gate", "assets/BowlingBall.png");
         this.load.image("ground", "assets/platform.png");
         this.load.spritesheet("dude", "assets/dude.png", {
             frameWidth: 32, frameHeight: 48
@@ -130,6 +133,20 @@ export default class HelloWorldScene extends Phaser.Scene {
         //this.switchesA.create(400, 510,"switchA")
         //
 
+        //Code Related to Gates
+        /*
+        this.gates = this.physics.add.group({
+            key: "gate",
+            immovable: true,
+            allowGravity: false,
+            setXY: { x: 480, y: 250 }
+        })
+        this.gates.create(200, 0,"gate")
+        this.physics.add.collider(this.gates, this.platforms)
+        this.physics.add.collider(this.gates, this.player1)
+        this.physics.add.collider(this.gates, this.player2)
+*/
+        this.gates = new Gate
         // for scene transition
         if (this.nextScene) {
             this.tweens.add({
