@@ -11,7 +11,8 @@ export default class HelloWorldScene extends Phaser.Scene {
     private buttons?: Phaser.Physics.Arcade.Group;
     private buttonArray: Button[] = [];
     private buttonsA?: Phaser.Physics.Arcade.Group;
-    private gates: Gate[] = [];
+    private gates?: Phaser.Physics.Arcade.Group;
+    private gateArray: Gate[] = [];
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player1?: Phaser.Physics.Arcade.Sprite;
     private player2?: Phaser.Physics.Arcade.Sprite;
@@ -148,19 +149,20 @@ export default class HelloWorldScene extends Phaser.Scene {
         //
 
         //Code Related to Gates
-        /*
+        
         this.gates = this.physics.add.group({
             key: "gate",
             immovable: true,
             allowGravity: false,
-            setXY: { x: 480, y: 250 }
+            setXY: { x: -480, y: 250 }
         })
-        this.gates.create(200, 0,"gate")
+       // this.gates.create(200, 0,"gate")
         this.physics.add.collider(this.gates, this.platforms)
         this.physics.add.collider(this.gates, this.player1)
         this.physics.add.collider(this.gates, this.player2)
-*/
-        this.gates[0] = new Gate(this, 480, 250, "assets/BowlingBall.png", 1);
+
+        this.gateArray[0] = new Gate(this, 0, 250, "assets/BowlingBall.png", 0);
+        this.gateArray[1] = new Gate(this, 200, 200, "assets/BowlingBall.png", 1);
         // for scene transition
         if (this.nextScene) {
             this.tweens.add({
@@ -179,7 +181,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         //Code related to buttons
         this.buttonArray = []
        this.buttonArray.push(new Button(this, 480, 250, "assets/star.png", 0, 0))
-        
+       this.buttonArray.push(new Button(this, 300, 500, "assets/star.png", 0, 0))
         this.buttons = this.physics.add.group({
             key: "button",
             setXY: { x: -480, y: 250 }
@@ -205,7 +207,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 
         // Here you can make new buttons without having to call anything else - BN
-        this.buttons.create(300, 500,"button")
+        
         this.buttonsA.create(300, 500,"buttonA")
         //
 
@@ -238,13 +240,21 @@ export default class HelloWorldScene extends Phaser.Scene {
     }
 
     private handleHitSwitch1(player1: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
-        const the_switch = s as Phaser.Physics.Arcade.Image
+        const the_switch = s as Switch
+        the_switch.gateID = 0;
+        the_switch.switchID = 0;
+        //this.gateArray[the_switch.gateID].setVisible(false)
         the_switch.disableBody(true, true)
+        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
+        this.gateArray[the_switch.gateID].handleActivate;
+        //this.gateArray[the_switch.gateID].setVisible(false)
     }
 
     private handleHitSwitch2(player2: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
-        const the_switch = s as Phaser.Physics.Arcade.Image
+        const the_switch = s as Switch
         the_switch.disableBody(true, true)
+        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
+        this.gateArray[the_switch.gateID].handleActivate;
     }
 
     private handleHitSwitchA1(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
