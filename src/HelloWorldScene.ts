@@ -13,7 +13,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private buttonsA?: Phaser.Physics.Arcade.Group;
     private gates?: Phaser.Physics.Arcade.Group;
     private gateArray: Gate[] = [];
-    private gatesA?: Phaser.Physics.Arcade.Group;
+  //  private gatesA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player1?: Phaser.Physics.Arcade.Sprite;
     private player2?: Phaser.Physics.Arcade.Sprite;
@@ -160,7 +160,7 @@ export default class HelloWorldScene extends Phaser.Scene {
             allowGravity: false,
             setXY: { x: -480, y: 250 }
         })
-
+/*
         this.gatesA = this.physics.add.group({
             key: "gateA",
             immovable: true,
@@ -169,7 +169,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         })
         this.gatesA.create(400, 200,"gateA")
         this.physics.add.overlap(this.gatesA, this.gates, this.handleGateSetup, undefined, this)
-
+*/
        // this.gates.create(200, 0,"gate")
         this.physics.add.collider(this.gates, this.platforms)
         this.physics.add.collider(this.gates, this.player1)
