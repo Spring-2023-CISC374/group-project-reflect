@@ -1,11 +1,19 @@
 import Phaser from 'phaser'
+import Gate from "./Objects/Gate";
+import Switch from "./Objects/Switch";
+import Button from './Objects/Button';
 
 export default class HelloWorldScene extends Phaser.Scene {
     //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
+    private switchArray: Switch[] = [];
     private switchesA?: Phaser.Physics.Arcade.Group;
     private buttons?: Phaser.Physics.Arcade.Group;
+    private buttonArray: Button[] = [];
     private buttonsA?: Phaser.Physics.Arcade.Group;
+    private gates?: Phaser.Physics.Arcade.Group;
+    private gateArray: Gate[] = [];
+  //  private gatesA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private boxes?: Phaser.Physics.Arcade.StaticGroup;
     private player1?: Phaser.Physics.Arcade.Sprite;
@@ -26,7 +34,9 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.load.image("switchA", "assets/bomb.png");
         this.load.image("button", "assets/button.png");
         this.load.image("buttonA", "assets/buttonA.png");
+        this.load.image("gate", "assets/BowlingBall.png");
         this.load.image("ground", "assets/platform.png");
+        this.load.image("gateA", "assets/star.png");
         this.load.image("box", "assets/box.png");
         this.load.spritesheet("dude", "assets/dude.png", {
             frameWidth: 32, frameHeight: 48
@@ -129,10 +139,20 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys()
 
         //Code related to switches
+        this.switchArray = []
+       this.switchArray.push(new Switch(this, 400, 500, "switch", 0, 0))
         this.switches = this.physics.add.group({
             key: "switch",
-            setXY: { x: 700, y: 60 }
+            setXY: { x: -480, y: 250 }
+ //         setXY: { x: 700, y: 60 }
         })
+
+        
+        this.switchArray.forEach(object => {
+            this.switches?.add(object);
+        })
+        
+      //  this.switches.add(switch0)
         this.physics.add.collider(this.switches, this.platforms)
         this.physics.add.overlap(this.player1, this.switches, this.handleHitSwitch1, undefined, this)
         this.physics.add.overlap(this.player2, this.switches, this.handleHitSwitch2, undefined, this)
@@ -147,11 +167,43 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.overlap(this.switchesA, this.player1, this.handleHitSwitchA1, undefined, this)
         this.physics.add.overlap(this.switchesA, this.player2, this.handleHitSwitchA2, undefined, this)
         
+        
+
         // Here you can make new switches without having to call anything else - BN
         //this.switches.create(400, 510,"switch")
         //this.switchesA.create(400, 510,"switchA")
         //
 
+        //Code Related to Gates
+        
+        this.gates = this.physics.add.group({
+            key: "gate",
+            immovable: true,
+            allowGravity: false,
+            setXY: { x: -480, y: 250 }
+        })
+/*
+        this.gatesA = this.physics.add.group({
+            key: "gateA",
+            immovable: true,
+            allowGravity: false,
+            setXY: { x: 200, y: 200 },
+        })
+        this.gatesA.create(400, 200,"gateA")
+        this.physics.add.overlap(this.gatesA, this.gates, this.handleGateSetup, undefined, this)
+*/
+       // this.gates.create(200, 0,"gate")
+        this.physics.add.collider(this.gates, this.platforms)
+        this.physics.add.collider(this.gates, this.player1)
+        this.physics.add.collider(this.gates, this.player2)
+
+        this.gateArray[0] = new Gate(this, 0, 250, "gate", 0);
+        this.gateArray[1] = new Gate(this, 200, 200, "gate", 1);
+        this.gateArray[2] = new Gate(this, 400, 200, "gate", 2);
+        
+        this.gateArray.forEach(object => {
+            this.gates?.add(object);
+        })
         // for scene transition
         if (this.nextScene) {
             this.tweens.add({
@@ -168,14 +220,22 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
 
         //Code related to buttons
+        this.buttonArray = []
+       this.buttonArray.push(new Button(this, 480, 250, "button", 1, 0))
+       this.buttonArray.push(new Button(this, 300, 500, "button", 2, 0))
         this.buttons = this.physics.add.group({
             key: "button",
-            setXY: { x: 480, y: 250 }
+            setXY: { x: -480, y: 250 }
         })
+
+        this.buttonArray.forEach(object => {
+            this.buttons?.add(object);
+        })
+
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
         this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
-
+        
         this.buttonsA = this.physics.add.group({
             key: "buttonA",
             setXY: { x: 480, y: 250 }
@@ -188,7 +248,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 
         // Here you can make new buttons without having to call anything else - BN
-        this.buttons.create(300, 500,"button")
+        
         this.buttonsA.create(300, 500,"buttonA")
         //
 
@@ -196,8 +256,16 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     //Handle buttons
     private handleHitButton(player1: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
-
+        const the_button = b as Button
+        this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
+        this.gateArray[the_button.gateID].handleActivate;
+        //temp code
+        this.gateArray[the_button.gateID].disableBody(true,true)
+       // this.time.delayedCall(1000,  this.handleGateDeactive, undefined, this.gateArray[the_button.gateID])
+        
+        
     }
+
 
     private handleButtonSetup(bA: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
         const the_button = bA as Phaser.Physics.Arcade.Image
@@ -220,14 +288,22 @@ export default class HelloWorldScene extends Phaser.Scene {
         the_switch.visible = false
     }
 
-    private handleHitSwitch1(player1: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
-        const the_switch = s as Phaser.Physics.Arcade.Image
+    private handleHitSwitch1(player1: Phaser.GameObjects.GameObject, s: Switch) {
+        const the_switch = s as Switch
         the_switch.disableBody(true, true)
+        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
+        this.gateArray[the_switch.gateID].handleActivate;
+        //temp code
+        this.gateArray[the_switch.gateID].disableBody(true,true)
     }
 
-    private handleHitSwitch2(player2: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
-        const the_switch = s as Phaser.Physics.Arcade.Image
+    private handleHitSwitch2(player2: Phaser.GameObjects.GameObject, s: Switch) {
+        const the_switch = s as Switch
         the_switch.disableBody(true, true)
+        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
+        this.gateArray[the_switch.gateID].handleActivate;
+        //temp code
+        this.gateArray[the_switch.gateID].disableBody(true,true)
     }
 
     private handleHitSwitchA1(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
@@ -238,6 +314,17 @@ export default class HelloWorldScene extends Phaser.Scene {
     private handleHitSwitchA2(player2: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
         const the_switch = sA as Phaser.Physics.Arcade.Image
         the_switch.visible = true
+    }
+
+    //Handle Gates
+    private handleGateSetup(gA: Phaser.GameObjects.GameObject, g: Gate) {
+        const the_gate = g as Phaser.Physics.Arcade.Image
+        the_gate.enableBody(false, the_gate.x, the_gate.y, true, true)
+    }
+
+    private handleGateDeactive(g:Gate){
+        const the_gate = g as Phaser.Physics.Arcade.Image
+        the_gate.enableBody(false, the_gate.x, the_gate.y, true, true)
     }
 
 	// sence transition
