@@ -15,6 +15,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private gateArray: Gate[] = [];
   //  private gatesA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
+    private boxes?: Phaser.Physics.Arcade.StaticGroup;
     private player1?: Phaser.Physics.Arcade.Sprite;
     private player2?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -36,6 +37,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.load.image("gate", "assets/BowlingBall.png");
         this.load.image("ground", "assets/platform.png");
         this.load.image("gateA", "assets/star.png");
+        this.load.image("box", "assets/box.png");
         this.load.spritesheet("dude", "assets/dude.png", {
             frameWidth: 32, frameHeight: 48
         });
@@ -49,33 +51,52 @@ export default class HelloWorldScene extends Phaser.Scene {
         //Carries the text from one scene to another
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
 
-        // Code Related to platforms
+        // Code Related to platforms and boxes
 
-        //Add Base Ground
+        //Add static groups
         this.platforms = this.physics.add.staticGroup()
+        this.boxes = this.physics.add.staticGroup()
+
+        //Add Base Ground and Box
         const ground = this.platforms.create(400, 568, "ground") as Phaser.Physics.Arcade.Sprite
         ground.setScale(2)
         ground.refreshBody()
+        const box = this.boxes.create(200, 525, "box") as Phaser.Physics.Arcade.Sprite
+        box.setScale(0.05)
+        box.refreshBody()
 
 
         //Add Higher Ground for the other sprite
-        this.platforms.create(400, 280,"ground")
         this.platforms.create(200, 280,"ground")
+        this.platforms.create(400, 280,"ground")
         this.platforms.create(600, 280,"ground")
 
         //Add additional platforms
-        this.platforms.create(300, 530, "ground")
+        this.platforms.create(700, 100, "ground")
+
+        //Add additional boxes
+        const box2 = this.boxes.create(400, 250, "box") as Phaser.Physics.Arcade.Sprite
+        box2.setScale(0.05)
+        box2.refreshBody()
+        const box3 = this.boxes.create(430, 250, "box") as Phaser.Physics.Arcade.Sprite
+        box3.setScale(0.05)
+        box3.refreshBody()
+        const box4 = this.boxes.create(430, 220, "box") as Phaser.Physics.Arcade.Sprite
+        box4.setScale(0.05)
+        box4.refreshBody()
 
         //Code related to the players
         this.player1 = this.physics.add.sprite(100, 430, "dude")
         this.player1.setBounce(0.1)
         this.player1.setCollideWorldBounds(true)
         this.physics.add.collider(this.player1, this.platforms)
+        this.physics.add.collider(this.player1, this.boxes)
 
         this.player2 = this.physics.add.sprite(100, 230, "dude")
         this.player2.setBounce(0.1)
         this.player2.setCollideWorldBounds(true)
         this.physics.add.collider(this.player2, this.platforms)
+        this.physics.add.collider(this.player2, this.boxes)
 
         this.anims.create({
             key: "left",
@@ -101,6 +122,7 @@ export default class HelloWorldScene extends Phaser.Scene {
             repeat: -1
         })
 
+        // Sets scene physics (please move this)
         this.physics.add.group(this.nextScene)
 
         this.anims.create({
@@ -122,7 +144,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.switches = this.physics.add.group({
             key: "switch",
             setXY: { x: -480, y: 250 }
-
+ //         setXY: { x: 700, y: 60 }
         })
 
         
@@ -137,7 +159,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
         this.switchesA = this.physics.add.group({
             key: "switchA",
-            setXY: { x: 400, y: 500 }
+            setXY: { x: 700, y: 60 }
         })
         this.physics.add.collider(this.switchesA, this.platforms)
 
@@ -325,6 +347,7 @@ export default class HelloWorldScene extends Phaser.Scene {
             this.player1?.anims.play("left", true)
             this.player2?.setVelocityX(-160)
             this.player2?.anims.play("left", true)
+
         } else if (this.cursors?.right.isDown) {
             this.player1?.setVelocityX(160)
             this.player1?.anims.play("right", true)
