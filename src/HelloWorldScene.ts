@@ -1,13 +1,17 @@
 import Phaser from 'phaser'
 import Gate from "./Objects/Gate";
+import Switch from "./Objects/Switch";
+import Button from './Objects/Button';
 
 export default class HelloWorldScene extends Phaser.Scene {
     //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
+    private switchArray: Switch[] = [];
     private switchesA?: Phaser.Physics.Arcade.Group;
     private buttons?: Phaser.Physics.Arcade.Group;
+    private buttonArray: Button[] = [];
     private buttonsA?: Phaser.Physics.Arcade.Group;
-    private gates?: Phaser.Physics.Arcade.Group;
+    private gates: Gate[] = [];
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player1?: Phaser.Physics.Arcade.Sprite;
     private player2?: Phaser.Physics.Arcade.Sprite;
@@ -110,10 +114,20 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys()
 
         //Code related to switches
+        this.switchArray = []
+       this.switchArray.push(new Switch(this, 400, 500, "assets/star.png", 0, 0))
         this.switches = this.physics.add.group({
             key: "switch",
-            setXY: { x: 400, y: 500 }
+            setXY: { x: -480, y: 250 }
+
         })
+
+        
+        this.switchArray.forEach(object => {
+            this.switches?.add(object);
+        })
+        
+      //  this.switches.add(switch0)
         this.physics.add.collider(this.switches, this.platforms)
         this.physics.add.overlap(this.player1, this.switches, this.handleHitSwitch1, undefined, this)
         this.physics.add.overlap(this.player2, this.switches, this.handleHitSwitch2, undefined, this)
@@ -146,7 +160,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.collider(this.gates, this.player1)
         this.physics.add.collider(this.gates, this.player2)
 */
-        this.gates = new Gate(this.scene, 480, 250);
+        this.gates[0] = new Gate(this, 480, 250, "assets/BowlingBall.png", 1);
         // for scene transition
         if (this.nextScene) {
             this.tweens.add({
@@ -163,10 +177,18 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
 
         //Code related to buttons
+        this.buttonArray = []
+       this.buttonArray.push(new Button(this, 480, 250, "assets/star.png", 0, 0))
+        
         this.buttons = this.physics.add.group({
             key: "button",
-            setXY: { x: 480, y: 250 }
+            setXY: { x: -480, y: 250 }
         })
+
+        this.buttonArray.forEach(object => {
+            this.buttons?.add(object);
+        })
+
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
         this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
