@@ -197,9 +197,12 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.collider(this.gates, this.player1)
         this.physics.add.collider(this.gates, this.player2)
 
-        this.gateArray[0] = new Gate(this, 0, 250, "gate", 0);
-        this.gateArray[1] = new Gate(this, 200, 200, "gate", 1);
-        this.gateArray[2] = new Gate(this, 400, 200, "gate", 2);
+        this.gateArray[0] = new Gate(this, -500, -250, "gate", 0);
+        this.gateArray[0].setScale(2.5)
+        this.gateArray[1] = new Gate(this, 700, 220, "gate", 1);
+        this.gateArray[1].setScale(2.5)
+        this.gateArray[2] = new Gate(this, 700, 480, "gate", 2);
+        this.gateArray[2].setScale(2.5)
         
         this.gateArray.forEach(object => {
             this.gates?.add(object);
