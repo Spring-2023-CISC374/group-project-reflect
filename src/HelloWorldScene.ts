@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import Gate from "./Objects/Gate";
 import Switch from "./Objects/Switch";
 import Button from './Objects/Button';
+import Player from "./Objects/Player";
+
 
 export default class HelloWorldScene extends Phaser.Scene {
     //Sprite creation
@@ -339,6 +341,13 @@ export default class HelloWorldScene extends Phaser.Scene {
         //this.scene.start('ThreeScene')
     //}
 
+    //Test code related to buttons
+    private checkOverlap(button: Button, sprite: Phaser.Physics.Arcade.Sprite) {
+	    var bounds_player = sprite.getBounds();
+	    var bounds_button = button.getBounds();
+	    return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
+	}
+
 
     update() {
         if (!this.cursors) {
@@ -377,6 +386,13 @@ export default class HelloWorldScene extends Phaser.Scene {
         if (this.cursors.up?.isDown && this.player2?.body.touching.down) {
             this.player2.setVelocityY(-330)
         }
+        /*
+        for(let i = 0; i < this.buttonArray.length; i++){
+            if(this.checkOverlap(this.buttonArray[i], this.player1?) == false){
+                 this.gateArray[this.buttonArray[i].gateID].enableBody
+            }
+        }
+        */
 
     }
 
