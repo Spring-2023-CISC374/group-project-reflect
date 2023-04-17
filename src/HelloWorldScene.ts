@@ -26,6 +26,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     constructor() {
         super('hello-world')
+
     }
 
     preload() {
@@ -142,7 +143,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
         //Code related to switches
         this.switchArray = []
-       this.switchArray.push(new Switch(this, 400, 500, "switch", 0, 0))
+       this.switchArray.push(new Switch(this, 400, 500, "switch", 2, 1))
         this.switches = this.physics.add.group({
             key: "switch",
             setXY: { x: -480, y: 250 }
@@ -266,10 +267,9 @@ export default class HelloWorldScene extends Phaser.Scene {
     private handleHitButton(player1: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
         const the_button = b as Button
         this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
-        this.gateArray[the_button.gateID].handleActivate;
+        this.handleActivateGate(the_button.gateID);
         //temp code
-        this.gateArray[the_button.gateID].disableBody(true,true)
-       // this.time.delayedCall(1000,  this.handleGateDeactive, undefined, this.gateArray[the_button.gateID])
+       // this.gateArray[the_button.gateID].disableBody(true,true)
         
         
     }
@@ -300,16 +300,16 @@ export default class HelloWorldScene extends Phaser.Scene {
         const the_switch = s as Switch
         the_switch.disableBody(true, true)
         this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
-        this.gateArray[the_switch.gateID].handleActivate;
+        this.handleActivateGate(the_switch.gateID);
         //temp code
-        this.gateArray[the_switch.gateID].disableBody(true,true)
+        //this.gateArray[the_switch.gateID].disableBody(true,true)
     }
 
     private handleHitSwitch2(player2: Phaser.GameObjects.GameObject, s: Switch) {
         const the_switch = s as Switch
         the_switch.disableBody(true, true)
         this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
-        this.gateArray[the_switch.gateID].handleActivate;
+        this.handleActivateGate(the_switch.gateID);
         //temp code
         this.gateArray[the_switch.gateID].disableBody(true,true)
     }
@@ -328,6 +328,13 @@ export default class HelloWorldScene extends Phaser.Scene {
     private handleGateSetup(gA: Phaser.GameObjects.GameObject, g: Gate) {
         const the_gate = g as Phaser.Physics.Arcade.Image
         the_gate.enableBody(false, the_gate.x, the_gate.y, true, true)
+    }
+
+    handleActivateGate(gateID: number){
+        if(this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]){
+            this.gateArray[gateID].disableBody(true,true)
+        }
+        return;
     }
 
     private handleGateDeactive(g:Gate){
@@ -394,7 +401,8 @@ export default class HelloWorldScene extends Phaser.Scene {
             if(this.checkOverlap(this.buttonArray[i], this.player1) == false && this.checkOverlap(this.buttonArray[i], this.player2) == false){
                  let gateX = this.gateArray[this.buttonArray[i].gateID].x
                  let gateY = this.gateArray[this.buttonArray[i].gateID].y
-                 this.gateArray[this.buttonArray[i].gateID].enableBody(false, gateX, gateY, true, true)
+                 this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
+                 //this.gateArray[this.buttonArray[i].gateID].enableBody(false, gateX, gateY, true, true)
             }
            
         }
