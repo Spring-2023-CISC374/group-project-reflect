@@ -25,7 +25,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private nextScene?: Phaser.GameObjects.Text;
 
     constructor() {
-        super('hello-world')
+        super('HelloWorldScene')
 
     }
 
