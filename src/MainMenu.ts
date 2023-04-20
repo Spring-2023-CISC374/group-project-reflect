@@ -5,7 +5,12 @@ export default class MainMenu extends Phaser.Scene {
         super({ key: 'MainMenu' });
     }
 
-    create() {      
+    preload(){
+        this.load.image('background','./assets/background.png' )
+    }
+
+    create() { 
+        this.add.image(500, 500, 'background');     
         this.add.text(this.cameras.main.centerX, this.cameras.main.centerY * 0.25, 'Reflect', { fontSize: '32px' }).setOrigin(0.5, 0.5);
 
         // creates the text button object to start tutorial & adds to scene 
