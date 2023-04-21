@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Gate from "./Objects/Gate";
 import Switch from "./Objects/Switch";
 import Button from './Objects/Button';
+import Player  from './Objects/Player';
 //import Player from "./Objects/Player";
 
 
@@ -18,8 +19,8 @@ export default class HelloWorldScene extends Phaser.Scene {
   //  private gatesA?: Phaser.Physics.Arcade.Group;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private boxes?: Phaser.Physics.Arcade.StaticGroup;
-    private player1!: Phaser.Physics.Arcade.Sprite;
-    private player2!: Phaser.Physics.Arcade.Sprite;
+    private player1?: Player;
+    private player2?: Player;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
@@ -89,13 +90,11 @@ export default class HelloWorldScene extends Phaser.Scene {
         box4.refreshBody()
 
         //Code related to the players
-        this.player1 = this.physics.add.sprite(100, 430, "dude")
-        this.player1.setBounce(0.1)
+        this.player1 = this.physics.add.existing(new Player(this, 100, 430, "dude", 1))
+        this.player2 = this.physics.add.existing(new Player(this, 100, 230, "dude", 2))
         this.player1.setCollideWorldBounds(true)
         this.physics.add.collider(this.player1, this.platforms)
         this.physics.add.collider(this.player1, this.boxes)
-
-        this.player2 = this.physics.add.sprite(100, 230, "dude")
         this.player2.setBounce(0.1)
         this.player2.setCollideWorldBounds(true)
         this.physics.add.collider(this.player2, this.platforms)
