@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
-import Gate from "./Objects/Gate";
-import Switch from "./Objects/Switch";
-import Button from './Objects/Button';
-import Player  from './Objects/Player';
+import Gate from "../Objects/Gate";
+import Switch from "../Objects/Switch";
+import Button from '../Objects/Button';
+import Player  from '../Objects/Player';
 //import Player from "./Objects/Player";
 
 
@@ -27,16 +27,16 @@ export default class HelloWorldScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('sky', 'assets/sky.png')
-        this.load.image("switch", "assets/star.png");
-        this.load.image("switchA", "assets/bomb.png");
-        this.load.image("button", "assets/button.png");
-        this.load.image("buttonA", "assets/buttonA.png");
-        this.load.image("gate", "assets/BowlingBall.png");
-        this.load.image("ground", "assets/platform.png");
-        this.load.image("gateA", "assets/star.png");
-        this.load.image("box", "assets/box.png");
-        this.load.spritesheet("dude", "assets/dude.png", {
+        this.load.image('sky', './assets/images/sky.png')
+        this.load.image("switch", "./assets/images/star.png");
+        this.load.image("switchA", "./assets/images/bomb.png");
+        this.load.image("button", "./assets/images/button.png");
+        this.load.image("buttonA", "./assets/images/buttonA.png");
+        this.load.image("gate", "./assets/images/BowlingBall.png");
+        this.load.image("ground", "./assets/images/platform.png");
+        this.load.image("gateA", "./assets/images/star.png");
+        this.load.image("box", "./assets/images/box.png");
+        this.load.spritesheet("dude", "./assets/images/dude.png", {
             frameWidth: 32, frameHeight: 48
         });
     }
@@ -237,7 +237,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     }
 
 	// sence transition
-    private handleLoadNextScene(player: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
+    private handleLoadNextScene() {
         this.scene.start('TwoScene')
     }
 	//ThreeScene

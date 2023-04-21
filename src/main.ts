@@ -1,11 +1,11 @@
 import Phaser from 'phaser'
 
-import HelloWorldScene from './HelloWorldScene'
-import TwoScene from "./TwoScene";
-import ThreeScene from "./ThreeScene";
-import FourScene from "./FourScene";
-import MainMenu from "./MainMenu";
-import TutorialScene from './TutorialScene';
+import HelloWorldScene from './Scenes/HelloWorldScene'
+import TwoScene from "./Scenes/TwoScene";
+import ThreeScene from "./Scenes/ThreeScene";
+import FourScene from "./Scenes/FourScene";
+import MainMenu from "./Scenes/MainMenu";
+import TutorialScene from './Scenes/TutorialScene';
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,

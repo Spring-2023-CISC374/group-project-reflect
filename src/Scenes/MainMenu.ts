@@ -1,4 +1,4 @@
-import { TextButtonObject } from "./Objects/TextButtonObject";
+import { TextButtonObject } from "../Objects/TextButtonObject";
 
 export default class MainMenu extends Phaser.Scene {
     constructor() {
@@ -6,7 +6,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('background','./assets/background.png' )
+        this.load.image('background','./assets/images/background.png' )
     }
 
     create() { 
