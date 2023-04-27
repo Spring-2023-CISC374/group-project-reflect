@@ -220,7 +220,7 @@ export default class HelloWorldScene extends Phaser.Scene {
         // reset touchable
         this.resetText.setInteractive();
         // monitor reset
-        this.resetText.on('pointerdown', (pointer) => {
+        this.resetText.on('pointerdown', () => {
             this.scene.restart();
         });
     }
