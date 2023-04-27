@@ -6,6 +6,8 @@ import Button from '../Objects/Button';
 import Player  from '../Objects/Player';
 //import Player from "./Objects/Player";
 
+import { TextButtonObject } from "../Objects/TextButtonObject";
+
 
 export default class HelloWorldScene extends Phaser.Scene {
     //Sprite creation
@@ -24,6 +26,8 @@ export default class HelloWorldScene extends Phaser.Scene {
     private nextScene?: Phaser.GameObjects.Text;
     //reset
     private resetText: Phaser.GameObjects.Text | undefined;
+    //menuText
+    private menuText: Phaser.GameObjects.Text | undefined;
 
     constructor() {
         super('HelloWorldScene')
@@ -223,6 +227,18 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.resetText.on('pointerdown', () => {
             this.scene.restart();
         });
+
+        // back to main
+        this.menuText = this.add.text(40, 10, 'Menu', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
+        // menu Text touchable
+        this.menuText.setInteractive();
+        // menuText
+        this.menuText.on('pointerdown', () => {
+            this.scene.start('BaseScene');
+        });
+        
+        
+
     }
 
     //Handle buttons

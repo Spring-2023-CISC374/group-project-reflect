@@ -5,6 +5,8 @@ import Button from '../Objects/Button';
 import Player  from '../Objects/Player';
 //import Player from "./Objects/Player";
 
+import { TextButtonObject } from "../Objects/TextButtonObject";
+
 
 export default class LevelTwo extends Phaser.Scene {
     //Sprite creation
@@ -23,6 +25,8 @@ export default class LevelTwo extends Phaser.Scene {
     private nextScene?: Phaser.GameObjects.Text;
     //reset
     private resetText: Phaser.GameObjects.Text | undefined;
+    //menuText
+    private menuText: Phaser.GameObjects.Text | undefined;
 
     constructor() {
         super('LevelTwo')
@@ -230,12 +234,15 @@ export default class LevelTwo extends Phaser.Scene {
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
         this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
-        // reset touchable
-        this.resetText.setInteractive();
-        // monitor reset
-        this.resetText.on('pointerdown', () => {
-          this.scene.restart();
-        }); 
+        
+        // back to main
+        this.menuText = this.add.text(40, 10, 'Menu', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
+        // menu Text touchable
+        this.menuText.setInteractive();
+        // menuText
+        this.menuText.on('pointerdown', () => {
+            this.scene.start('BaseScene');
+        });
     }
 
     //Handle buttons
@@ -262,10 +269,12 @@ export default class LevelTwo extends Phaser.Scene {
         return;
     }
 
+
 	// sence transition
     private handleLoadNextScene() {
         this.scene.start('EndScene')
     }
+    
 	//ThreeScene
 	//private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
         //this.scene.start('ThreeScene')

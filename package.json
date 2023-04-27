@@ -10,8 +10,7 @@
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d dist",
 		"preview": "vite preview"
-		},
-		
+	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.40.0",
 		"@typescript-eslint/parser": "^5.40.0",
