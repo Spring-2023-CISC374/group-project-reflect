@@ -1,4 +1,4 @@
-import  {TextButtonObject} from './Objects/TextButtonObject';
+import  {TextButtonObject} from '../Objects/TextButtonObject';
 
 
 export default class TutorialScene extends Phaser.Scene {
