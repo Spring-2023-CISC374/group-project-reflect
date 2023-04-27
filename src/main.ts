@@ -19,7 +19,7 @@ const config: Phaser.Types.Core.GameConfig = {
 			gravity: { y: 400 },
 		},
 	},
-	scene: [BaseScene, TutorialScene, HelloWorldScene, LevelTwo, EndScene], // 4Scene
+	scene: [BaseScene, TutorialScene, HelloWorldScene, LevelTwo, EndScene]
 }
 
 export default new Phaser.Game(config)
