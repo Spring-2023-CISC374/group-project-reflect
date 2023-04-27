@@ -1,4 +1,3 @@
-//aka level 1
 import Phaser from 'phaser'
 import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
@@ -7,7 +6,7 @@ import Player  from '../Objects/Player';
 //import Player from "./Objects/Player";
 
 
-export default class HelloWorldScene extends Phaser.Scene {
+export default class LevelOne extends Phaser.Scene {
     //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
     private switchArray: Switch[] = [];
@@ -26,7 +25,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private resetText: Phaser.GameObjects.Text | undefined;
 
     constructor() {
-        super('HelloWorldScene')
+        super('LevelOne')
     }
 
     preload() {
