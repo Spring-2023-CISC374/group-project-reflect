@@ -6,7 +6,7 @@ import Player  from '../Objects/Player';
 //import Player from "./Objects/Player";
 
 
-export default class HelloWorldScene extends Phaser.Scene {
+export default class LevelTwo extends Phaser.Scene {
     //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
     private switchArray: Switch[] = [];
@@ -23,7 +23,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     private nextScene?: Phaser.GameObjects.Text;
 
     constructor() {
-        super('HelloWorldScene')
+        super('LevelTwo')
     }
 
     preload() {
@@ -57,28 +57,43 @@ export default class HelloWorldScene extends Phaser.Scene {
         const ground = this.platforms.create(400, 568, "ground") as Phaser.Physics.Arcade.Sprite
         ground.setScale(2)
         ground.refreshBody()
-        const box = this.boxes.create(200, 525, "box") as Phaser.Physics.Arcade.Sprite
-        box.setScale(0.05)
-        box.refreshBody()
+        //const box = this.boxes.create(200, 525, "box") as Phaser.Physics.Arcade.Sprite
+        //box.setScale(0.05)
+        //box.refreshBody()
 
         //Add Higher Ground for the other sprite
         this.platforms.create(200, 280,"ground")
         this.platforms.create(400, 280,"ground")
-        this.platforms.create(600, 280,"ground")
 
         //Add additional platforms
-        this.platforms.create(700, 100, "ground")
+        const smaller = this.platforms.create(400, 180, "ground")
+        smaller.setScale(0.5)
+        smaller.refreshBody()
+        const smaller2 = this.platforms.create(400, 460, "ground")
+        smaller2.setScale(0.5)
+        smaller2.refreshBody()
 
         //Add additional boxes
-        const box2 = this.boxes.create(400, 250, "box") as Phaser.Physics.Arcade.Sprite
+        const box2 = this.boxes.create(500, 200, "box") as Phaser.Physics.Arcade.Sprite
         box2.setScale(0.05)
         box2.refreshBody()
-        const box3 = this.boxes.create(430, 250, "box") as Phaser.Physics.Arcade.Sprite
+        const box3 = this.boxes.create(500, 225, "box") as Phaser.Physics.Arcade.Sprite
         box3.setScale(0.05)
         box3.refreshBody()
-        const box4 = this.boxes.create(430, 220, "box") as Phaser.Physics.Arcade.Sprite
+        const box4 = this.boxes.create(500, 250, "box") as Phaser.Physics.Arcade.Sprite
         box4.setScale(0.05)
         box4.refreshBody()
+
+        const box5 = this.boxes.create(500, 480, "box") as Phaser.Physics.Arcade.Sprite
+        box5.setScale(0.05)
+        box5.refreshBody()
+        const box6 = this.boxes.create(500, 505, "box") as Phaser.Physics.Arcade.Sprite
+        box6.setScale(0.05)
+        box6.refreshBody()
+        const box7 = this.boxes.create(500, 530, "box") as Phaser.Physics.Arcade.Sprite
+        box7.setScale(0.05)
+        box7.refreshBody()
+
 
         //Code related to the players
         this.player1 = this.physics.add.existing(new Player(this, 100, 430, "dude", 1))
@@ -136,8 +151,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 
         // array indexes (0, 1, 2) if true, open gate
         // by default all gates are true
-        this.switchArray.push(new Switch(this, 700, 60, "switch", 1, 1)) //false, true, false
-        this.switchArray.push(new Switch(this, 700, 60, "switch", 2, 1))
+        this.switchArray.push(new Switch(this, 460, 500, "switch", 2, 0))
+        this.switchArray.push(new Switch(this, 460, 250, "switch", 1, 0))
+        this.switchArray.push(new Switch(this, 400, 350, "switch", 0, 0))
         this.switches = this.physics.add.group({
             key: "switch",
             setXY: { x: -480, y: 250 }
@@ -168,11 +184,11 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.physics.add.collider(this.gates, this.player2)
 
         // in this case, 0, 1, and 2 are telling the number of bools to turn false
-        this.gateArray[0] = new Gate(this, -500, -250, "gate", 0);
-        this.gateArray[0].setScale(2.5)
-        this.gateArray[1] = new Gate(this, 700, 220, "gate", 2);
-        this.gateArray[1].setScale(2.5)
-        this.gateArray[2] = new Gate(this, 700, 480, "gate", 2);
+        this.gateArray[0] = new Gate(this, 300, 220, "gate", 1);
+        this.gateArray[0].setScale(1.3)
+        this.gateArray[1] = new Gate(this, 300, 510, "gate", 1);
+        this.gateArray[1].setScale(1.3)
+        this.gateArray[2] = new Gate(this, 700, 480, "gate", 1);
         this.gateArray[2].setScale(2.5)
         
         this.gateArray.forEach(object => {
@@ -196,8 +212,8 @@ export default class HelloWorldScene extends Phaser.Scene {
 
         //Code related to buttons
         this.buttonArray = []
-        this.buttonArray.push(new Button(this, 480, 250, "button", 1, 0))
-        this.buttonArray.push(new Button(this, 300, 500, "button", 2, 0))
+        //this.buttonArray.push(new Button(this, 460, 250, "button", 2, 0))
+        //this.buttonArray.push(new Button(this, 400, 350, "button", 1, 0))
         this.buttons = this.physics.add.group({
             key: "button",
             setXY: { x: -480, y: 250 }
@@ -238,7 +254,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 	// sence transition
     private handleLoadNextScene() {
-        this.scene.start('LevelTwo')
+        this.scene.start('TwoScene')
     }
 	//ThreeScene
 	//private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {

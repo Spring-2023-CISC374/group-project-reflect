@@ -7,6 +7,8 @@ import FourScene from "./Scenes/FourScene";
 import MainMenu from "./Scenes/MainMenu";
 import TutorialScene from './Scenes/TutorialScene';
 
+import LevelTwo from './Scenes/LevelTwo'
+
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	parent: 'app',
@@ -18,7 +20,7 @@ const config: Phaser.Types.Core.GameConfig = {
 			gravity: { y: 400 },
 		},
 	},
-	scene: [MainMenu, TutorialScene,HelloWorldScene, TwoScene, ThreeScene,FourScene], // 4Scene
+	scene: [MainMenu, TutorialScene,HelloWorldScene, LevelTwo, TwoScene, ThreeScene,FourScene], // 4Scene
 }
 
 export default new Phaser.Game(config)
