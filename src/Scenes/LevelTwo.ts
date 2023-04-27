@@ -21,6 +21,8 @@ export default class LevelTwo extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
+    //reset
+    private resetText: Phaser.GameObjects.Text | undefined;
 
     constructor() {
         super('LevelTwo')
@@ -48,7 +50,9 @@ export default class LevelTwo extends Phaser.Scene {
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
 
         // Code Related to platforms and boxes
-
+        //reset text top left
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
+        
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
         this.boxes = this.physics.add.staticGroup()
@@ -226,6 +230,12 @@ export default class LevelTwo extends Phaser.Scene {
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
         this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
+        // reset touchable
+        this.resetText.setInteractive();
+        // monitor reset
+        this.resetText.on('pointerdown', (pointer) => {
+          this.scene.restart();
+        }); 
     }
 
     //Handle buttons
@@ -254,7 +264,7 @@ export default class LevelTwo extends Phaser.Scene {
 
 	// sence transition
     private handleLoadNextScene() {
-        this.scene.start('TwoScene')
+        this.scene.start('EndScene')
     }
 	//ThreeScene
 	//private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
