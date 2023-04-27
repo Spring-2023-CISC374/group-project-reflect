@@ -233,7 +233,7 @@ export default class LevelTwo extends Phaser.Scene {
         // reset touchable
         this.resetText.setInteractive();
         // monitor reset
-        this.resetText.on('pointerdown', (pointer) => {
+        this.resetText.on('pointerdown', () => {
           this.scene.restart();
         }); 
     }
