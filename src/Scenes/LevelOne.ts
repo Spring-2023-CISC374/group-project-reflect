@@ -2,11 +2,13 @@ import Phaser from 'phaser'
 import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
-import Player  from '../Objects/Player';
-//import Player from "./Objects/Player";
+import Player from '../Objects/Player';
+import CommonPreload from './CommonPreload';
 
 
-export default class LevelOne extends Phaser.Scene {
+
+export default class LevelOne extends CommonPreload {
+
     //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
     private switchArray: Switch[] = [];
@@ -21,27 +23,12 @@ export default class LevelOne extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
-    //reset
-    private resetText: Phaser.GameObjects.Text | undefined;
+
 
     constructor() {
         super('LevelOne')
     }
 
-    preload() {
-        this.load.image('sky', './assets/images/sky.png')
-        this.load.image("switch", "./assets/images/star.png");
-        this.load.image("switchA", "./assets/images/bomb.png");
-        this.load.image("button", "./assets/images/button.png");
-        this.load.image("buttonA", "./assets/images/buttonA.png");
-        this.load.image("gate", "./assets/images/BowlingBall.png");
-        this.load.image("ground", "./assets/images/platform.png");
-        this.load.image("gateA", "./assets/images/star.png");
-        this.load.image("box", "./assets/images/box.png");
-        this.load.spritesheet("dude", "./assets/images/dude.png", {
-            frameWidth: 32, frameHeight: 48
-        });
-    }
 
     create() {
         //Makes sky box
@@ -50,9 +37,9 @@ export default class LevelOne extends Phaser.Scene {
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
 
         // Code Related to platforms and boxes
-        //reset text top left
-        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
-        
+
+        // Sets scene physics (please move this)
+        this.physics.add.group(this.nextScene)
 
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
@@ -67,9 +54,9 @@ export default class LevelOne extends Phaser.Scene {
         box.refreshBody()
 
         //Add Higher Ground for the other sprite
-        this.platforms.create(200, 280,"ground")
-        this.platforms.create(400, 280,"ground")
-        this.platforms.create(600, 280,"ground")
+        this.platforms.create(200, 280, "ground")
+        this.platforms.create(400, 280, "ground")
+        this.platforms.create(600, 280, "ground")
 
         //Add additional platforms
         this.platforms.create(700, 100, "ground")
@@ -96,6 +83,9 @@ export default class LevelOne extends Phaser.Scene {
         this.physics.add.collider(this.player2, this.platforms)
         this.physics.add.collider(this.player2, this.boxes)
 
+
+
+
         this.anims.create({
             key: "left",
             frames: this.anims.generateFrameNumbers("dude", {
@@ -120,8 +110,7 @@ export default class LevelOne extends Phaser.Scene {
             repeat: -1
         })
 
-        // Sets scene physics (please move this)
-        this.physics.add.group(this.nextScene)
+
 
         this.anims.create({
             key: "right",
@@ -131,8 +120,6 @@ export default class LevelOne extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         })
-
-
         //Allow for key presses
         this.cursors = this.input.keyboard.createCursorKeys()
 
@@ -146,21 +133,21 @@ export default class LevelOne extends Phaser.Scene {
         this.switches = this.physics.add.group({
             key: "switch",
             setXY: { x: -480, y: 250 }
-        //  setXY: { x: 700, y: 60 }
+            //  setXY: { x: 700, y: 60 }
         })
 
         this.switchArray.forEach(object => {
             this.switches?.add(object);
         })
-        
+
         // this.switches.add(switch0)
         this.physics.add.collider(this.switches, this.platforms)
         this.physics.add.overlap(this.player1, this.switches, this.handleHitSwitch, undefined, this)
         this.physics.add.overlap(this.player2, this.switches, this.handleHitSwitch, undefined, this)
-        
+
 
         //Code Related to Gates
-        
+
         this.gates = this.physics.add.group({
             key: "gate",
             immovable: true,
@@ -179,7 +166,7 @@ export default class LevelOne extends Phaser.Scene {
         this.gateArray[1].setScale(2.5)
         this.gateArray[2] = new Gate(this, 700, 480, "gate", 2);
         this.gateArray[2].setScale(2.5)
-        
+
         this.gateArray.forEach(object => {
             this.gates?.add(object);
         })
@@ -187,11 +174,11 @@ export default class LevelOne extends Phaser.Scene {
         if (this.nextScene) {
             this.tweens.add({
                 targets: this.nextScene,
-                x: this.nextScene.x + 10, 
-                duration: 500, 
-                ease: 'Sine.ease', 
-                yoyo: true, 
-                repeat: -1, 
+                x: this.nextScene.x + 10,
+                duration: 500,
+                ease: 'Sine.ease',
+                yoyo: true,
+                repeat: -1,
             });
         }
 
@@ -215,13 +202,29 @@ export default class LevelOne extends Phaser.Scene {
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
         this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
-        
+
+
+        //reset text top left
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Times New Roman', fontSize: '64', color: '#ffffff' });
+        //Menu top left
+        this.menuText = this.add.text(40, 10, 'Menu', { fontFamily: 'Times New Roman', fontSize: '64', color: '#ffffff' });
+
         // reset touchable
         this.resetText.setInteractive();
+
         // monitor reset
         this.resetText.on('pointerdown', () => {
             this.scene.restart();
         });
+
+        // reset touchable
+        this.menuText.setInteractive();
+
+        // monitor reset
+        this.menuText.on('pointerdown', () => {
+            this.scene.start('StartScreen');
+        });
+
     }
 
     //Handle buttons
@@ -241,29 +244,28 @@ export default class LevelOne extends Phaser.Scene {
         the_switch.setTexture("switchA")
     }
 
-    handleActivateGate(gateID: number){
-        if(this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]){
-            this.gateArray[gateID].disableBody(true,true)
+    handleActivateGate(gateID: number) {
+        if (this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]) {
+            this.gateArray[gateID].disableBody(true, true)
         }
         return;
     }
 
-	// sence transition
+    // sence transition
     private handleLoadNextScene() {
         this.scene.start('LevelTwo')
     }
-	//ThreeScene
-	//private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-        //this.scene.start('ThreeScene')
+    //ThreeScene
+    //private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
+    //this.scene.start('ThreeScene')
     //}
 
     //Test code related to buttons
     private checkOverlap(button: Button, sprite: Phaser.Physics.Arcade.Sprite) {
-	    var bounds_player = sprite.getBounds();
-	    var bounds_button = button.getBounds();
-	    return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
-	}
-
+        var bounds_player = sprite.getBounds();
+        var bounds_button = button.getBounds();
+        return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
+    }
     update() {
         if (!this.cursors) {
             return
@@ -281,7 +283,7 @@ export default class LevelOne extends Phaser.Scene {
             this.player2?.setVelocityX(160)
             this.player2?.anims.play("right", true)
         }
-        else if(this.cursors?.down.isDown){
+        else if (this.cursors?.down.isDown) {
             this.player1?.setVelocityY(400);
             this.player1?.anims.play('turn', true)
             this.player2?.setVelocityY(400);
@@ -301,12 +303,13 @@ export default class LevelOne extends Phaser.Scene {
         if (this.cursors.up?.isDown && this.player2?.body.touching.down) {
             this.player2.setVelocityY(-330)
         }
-        
-        for(let i = 0; i < this.buttonArray.length; i++){
-            if(this.checkOverlap(this.buttonArray[i], this.player1!) == false && this.checkOverlap(this.buttonArray[i], this.player2!) == false){
-                 this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
-                 this.buttonArray[i].setTexture("button")
-            }       
+
+        for (let i = 0; i < this.buttonArray.length; i++) {
+            if (this.checkOverlap(this.buttonArray[i], this.player1!) == false && this.checkOverlap(this.buttonArray[i], this.player2!) == false) {
+                this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
+                this.buttonArray[i].setTexture("button")
+            }
         }
     }
+
 }

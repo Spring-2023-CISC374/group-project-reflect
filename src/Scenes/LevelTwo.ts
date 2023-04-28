@@ -2,11 +2,11 @@ import Phaser from 'phaser'
 import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
-import Player  from '../Objects/Player';
-//import Player from "./Objects/Player";
+import Player from '../Objects/Player';
+import CommonPreload from './CommonPreload'
 
 
-export default class LevelTwo extends Phaser.Scene {
+export default class LevelTwo extends CommonPreload {
     //Sprite creation
     private switches?: Phaser.Physics.Arcade.Group;
     private switchArray: Switch[] = [];
@@ -21,27 +21,12 @@ export default class LevelTwo extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
-    //reset
-    private resetText: Phaser.GameObjects.Text | undefined;
+
 
     constructor() {
         super('LevelTwo')
     }
 
-    preload() {
-        this.load.image('sky', './assets/images/sky.png')
-        this.load.image("switch", "./assets/images/star.png");
-        this.load.image("switchA", "./assets/images/bomb.png");
-        this.load.image("button", "./assets/images/button.png");
-        this.load.image("buttonA", "./assets/images/buttonA.png");
-        this.load.image("gate", "./assets/images/BowlingBall.png");
-        this.load.image("ground", "./assets/images/platform.png");
-        this.load.image("gateA", "./assets/images/star.png");
-        this.load.image("box", "./assets/images/box.png");
-        this.load.spritesheet("dude", "./assets/images/dude.png", {
-            frameWidth: 32, frameHeight: 48
-        });
-    }
 
     create() {
         //Makes sky box
@@ -50,8 +35,7 @@ export default class LevelTwo extends Phaser.Scene {
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
 
         // Code Related to platforms and boxes
-        //reset text top left
-        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Arial', fontSize: '32', color: '#ffffff' });
+
         
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
@@ -230,12 +214,28 @@ export default class LevelTwo extends Phaser.Scene {
         this.physics.add.collider(this.buttons, this.platforms)
         this.physics.add.overlap(this.player1, this.buttons, this.handleHitButton, undefined, this)
         this.physics.add.overlap(this.player2, this.buttons, this.handleHitButton, undefined, this)
+
+
+        //reset text top left
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Times New Roman', fontSize: '64', color: '#ffffff' });
+        //Menu top left
+        this.menuText = this.add.text(40, 10, 'Menu', { fontFamily: 'Times New Roman', fontSize: '64', color: '#ffffff' });
+
         // reset touchable
         this.resetText.setInteractive();
+
         // monitor reset
         this.resetText.on('pointerdown', () => {
-          this.scene.restart();
-        }); 
+            this.scene.restart();
+        });
+
+        // reset touchable
+        this.menuText.setInteractive();
+
+        // monitor reset
+        this.menuText.on('pointerdown', () => {
+            this.scene.start('StartScreen');
+        });
     }
 
     //Handle buttons
