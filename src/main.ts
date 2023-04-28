@@ -7,6 +7,7 @@ import EndScene from './Scenes/EndScene';
 import LevelOne from './Scenes/LevelOne'
 import LevelTwo from './Scenes/LevelTwo'
 
+
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	parent: 'app',
