@@ -205,9 +205,9 @@ export default class LevelOne extends CommonPreload {
 
 
         //reset text top left
-        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Times New Roman', fontSize: '64', color: '#ffffff' });
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Times New Roman', fontSize: 13, color: 'yellow' });
         //Menu top left
-        this.menuText = this.add.text(40, 10, 'Menu', { fontFamily: 'Times New Roman', fontSize: '64', color: '#ffffff' });
+        this.menuText = this.add.text(50, 10, 'Menu', { fontFamily: 'Times New Roman', fontSize: 13, color: 'purple' });
 
         // reset touchable
         this.resetText.setInteractive();
