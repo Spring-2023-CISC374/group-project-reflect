@@ -121,7 +121,7 @@ export default class LevelOne extends CommonPreload {
             repeat: -1
         })
         //Allow for key presses
-        this.cursors = this.input.keyboard.createCursorKeys()
+        this.cursors = this.input.keyboard?.createCursorKeys()
 
         //Code related to switches
         this.switchArray = []
@@ -228,7 +228,7 @@ export default class LevelOne extends CommonPreload {
     }
 
     //Handle buttons
-    private handleHitButton(p: Phaser.GameObjects.GameObject, b: Phaser.GameObjects.GameObject) {
+    private handleHitButton(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, b: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
         p;
         const the_button = b as Button
         this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
@@ -236,7 +236,7 @@ export default class LevelOne extends CommonPreload {
         the_button.setTexture('buttonA')
     }
 
-    private handleHitSwitch(p: Phaser.GameObjects.GameObject, s: Phaser.GameObjects.GameObject) {
+    private handleHitSwitch(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, s: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
         p;
         const the_switch = s as Switch
         this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
@@ -262,8 +262,8 @@ export default class LevelOne extends CommonPreload {
 
     //Test code related to buttons
     private checkOverlap(button: Button, sprite: Phaser.Physics.Arcade.Sprite) {
-        var bounds_player = sprite.getBounds();
-        var bounds_button = button.getBounds();
+        const bounds_player = sprite.getBounds();
+        const bounds_button = button.getBounds();
         return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
     }
     update() {
@@ -296,11 +296,11 @@ export default class LevelOne extends CommonPreload {
             this.player2?.anims.play("turn")
         }
 
-        if (this.cursors.up?.isDown && this.player1?.body.touching.down) {
+        if (this.cursors.up?.isDown && this.player1?.body?.touching.down) {
             this.player1.setVelocityY(-330)
         }
 
-        if (this.cursors.up?.isDown && this.player2?.body.touching.down) {
+        if (this.cursors.up?.isDown && this.player2?.body?.touching.down) {
             this.player2.setVelocityY(-330)
         }
 

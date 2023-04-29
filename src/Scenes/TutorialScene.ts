@@ -14,7 +14,7 @@ export default class TutorialScene extends BaseText {
         this.addTextButton('Level 1', 'LevelOne', 250)
         this.addTextButton("Level 2", "LevelTwo", 300)
         
-        let gateImage = this.add.image(300, 250, 'gate');
+        const gateImage = this.add.image(300, 250, 'gate');
         gateImage.setScale(0.5)
         this.add.text(350, 250, "Gate: block you").setOrigin(0, 1);
         
@@ -27,7 +27,7 @@ export default class TutorialScene extends BaseText {
         this.add.image(300, 400, 'dude');
         this.add.text(350, 400, "Player: is you").setOrigin(0, 1);
         
-        let boxImage = this.add.image(300, 450, 'box');
+        const boxImage = this.add.image(300, 450, 'box');
         boxImage.setScale(0.05)
         this.add.text(350, 450, "Box: jump high").setOrigin(0, 1);
 

@@ -1,3 +1,4 @@
+import Player from "../Objects/Player";
 import { TextButtonObject } from "../Objects/TextButtonObject";
 
 export default class BaseText extends Phaser.Scene {
