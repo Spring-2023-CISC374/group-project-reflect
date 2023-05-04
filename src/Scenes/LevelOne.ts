@@ -23,6 +23,7 @@ export default class LevelOne extends CommonPreload {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 	//Scene Transition
     private nextScene?: Phaser.GameObjects.Text;
+    private nextScene2?: Phaser.GameObjects.Text;
 
 
     constructor() {
@@ -35,11 +36,13 @@ export default class LevelOne extends CommonPreload {
         this.add.image(400, 300, 'sky');
         //Carries the text from one scene to another
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
+        this.nextScene2 = this.add.text(775, 210, '->', { color: '#ffffff' });
 
         // Code Related to platforms and boxes
 
         // Sets scene physics (please move this)
         this.physics.add.group(this.nextScene)
+        this.physics.add.group(this.nextScene2)
 
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
@@ -181,10 +184,26 @@ export default class LevelOne extends CommonPreload {
                 repeat: -1,
             });
         }
+        // for scene transition
+        if (this.nextScene2) {
+            this.tweens.add({
+                targets: this.nextScene2,
+                x: this.nextScene2.x + 10,
+                duration: 500,
+                ease: 'Sine.ease',
+                yoyo: true,
+                repeat: -1,
+            });
+        }
 
         this.physics.add.collider(this.nextScene, this.platforms)
         this.physics.add.overlap(this.nextScene, this.player1, this.handleLoadNextScene, undefined, this)
         this.physics.add.overlap(this.nextScene, this.player2, this.handleLoadNextScene, undefined, this)
+
+        
+        this.physics.add.collider(this.nextScene2, this.platforms)
+        this.physics.add.overlap(this.nextScene2, this.player1, this.handleLoadNextScene, undefined, this)
+        this.physics.add.overlap(this.nextScene2, this.player2, this.handleLoadNextScene, undefined, this)
 
         //Code related to buttons
         this.buttonArray = []
