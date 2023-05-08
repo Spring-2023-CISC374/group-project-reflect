@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
+import ButtonTrap from '../Objects/ButtonTrap';
 import Player from '../Objects/Player';
 import CommonPreload from './CommonPreload';
 
@@ -14,6 +15,8 @@ export default class LevelOne extends CommonPreload {
     private switchArray: Switch[] = [];
     private buttons?: Phaser.Physics.Arcade.Group;
     private buttonArray: Button[] = [];
+    private buttonsT?: Phaser.Physics.Arcade.Group;
+    private buttonArrayT: Button[] = [];
     private gates?: Phaser.Physics.Arcade.Group;
     private gateArray: Gate[] = [];
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
@@ -255,6 +258,14 @@ export default class LevelOne extends CommonPreload {
         the_button.setTexture('buttonA')
     }
 
+    private handleHitButtonTrap(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, b: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
+        p;
+        const the_button = b as ButtonTrap
+        this.gateArray[the_button.gateID].actives[the_button.buttonID] = false;
+        this.handleDeactivateGate(the_button.gateID);
+        the_button.setTexture('buttonA')
+    }
+
     private handleHitSwitch(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, s: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
         p;
         const the_switch = s as Switch
@@ -268,6 +279,15 @@ export default class LevelOne extends CommonPreload {
             this.gateArray[gateID].disableBody(true, true)
         }
         return;
+    }
+
+    handleDeactivateGate(gateID: number) {
+        if (this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]) {
+            return;
+        }
+        else{
+            this.gateArray[gateID].enableBody(false, this.gateArray[gateID].x, this.gateArray[gateID].y, true, true)
+        }
     }
 
     // sence transition
