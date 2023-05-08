@@ -349,6 +349,13 @@ export default class LevelOne extends CommonPreload {
                 this.buttonArray[i].setTexture("button")
             }
         }
+
+        for (let i = 0; i < this.buttonArrayT.length; i++) {
+            if (this.checkOverlap(this.buttonArrayT[i], this.player1!) == false && this.checkOverlap(this.buttonArrayT[i], this.player2!) == false) {
+                this.gateArray[this.buttonArrayT[i].gateID].actives[this.buttonArrayT[i].buttonID] = false;
+                this.buttonArrayT[i].setTexture("button")
+            }
+        }
     }
 
 }
