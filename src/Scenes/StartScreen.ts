@@ -10,7 +10,7 @@ export default class StartScreen extends BaseText {
         super.create();
 
         this.addTextButton("Start Tutorial", "TutorialScene", 400)
-        this.addTextButton("Play Game", "LevelOne", 500)
+        this.addTextButton("Play Game", "LevelTwo", 500)
     }
 
 }
