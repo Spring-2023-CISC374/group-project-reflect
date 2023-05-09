@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
-import ButtonTrap from '../Objects/ButtonTrap';
 import Player from '../Objects/Player';
 import CommonPreload from './CommonPreload';
 
@@ -15,7 +14,6 @@ export default class LevelOne extends CommonPreload {
     private switchArray: Switch[] = [];
     private buttons?: Phaser.Physics.Arcade.Group;
     private buttonArray: Button[] = [];
-    private buttonsT?: Phaser.Physics.Arcade.Group;
     private buttonArrayT: Button[] = [];
     private gates?: Phaser.Physics.Arcade.Group;
     private gateArray: Gate[] = [];
@@ -227,9 +225,9 @@ export default class LevelOne extends CommonPreload {
 
 
         //reset text top left
-        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Times New Roman', fontSize: 13, color: 'yellow' });
+        this.resetText = this.add.text(10, 10, 'Reset', { fontFamily: 'Times New Roman', fontSize: '13', color: 'yellow' });
         //Menu top left
-        this.menuText = this.add.text(50, 10, 'Menu', { fontFamily: 'Times New Roman', fontSize: 13, color: 'purple' });
+        this.menuText = this.add.text(50, 10, 'Menu', { fontFamily: 'Times New Roman', fontSize: '13', color: 'purple' });
 
         // reset touchable
         this.resetText.setInteractive();
@@ -255,14 +253,6 @@ export default class LevelOne extends CommonPreload {
         const the_button = b as Button
         this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
         this.handleActivateGate(the_button.gateID);
-        the_button.setTexture('buttonA')
-    }
-
-    private handleHitButtonTrap(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, b: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_button = b as ButtonTrap
-        this.gateArray[the_button.gateID].actives[the_button.buttonID] = false;
-        this.handleDeactivateGate(the_button.gateID);
         the_button.setTexture('buttonA')
     }
 
@@ -292,7 +282,7 @@ export default class LevelOne extends CommonPreload {
 
     // sence transition
     private handleLoadNextScene() {
-        this.scene.start('LevelTwo')
+        this.scene.start('LevelThree')
     }
     //ThreeScene
     //private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
