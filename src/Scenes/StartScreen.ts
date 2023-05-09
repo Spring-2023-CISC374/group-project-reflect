@@ -5,12 +5,25 @@ export default class StartScreen extends BaseText {
         super('StartScreen');
     }
 
+    preload() {
+        this.load.video('game', './assets/video/game.mp4');
+    }
     create() { 
 
         super.create();
+        const game = this.add.video(0, 0, 'game');
+        setTimeout(() => {
+            game.setSize(900, 600).setScale(1).setOrigin(0);
+            //game.setSize(800, 600).setScale(1).setOrigin(0);
+            game.setMute(true);
+            game.play(true)
+        }, 300)
+        game.play(true)
+        this.addTextButton("Start Tutorial", "TutorialScene", 800)
+        this.addTextButton("Play Game", "LevelTwo", 700)
+        
+        // this.load.image("gateA", "./assets/images/star.png");
 
-        this.addTextButton("Start Tutorial", "TutorialScene", 400)
-        this.addTextButton("Play Game", "LevelTwo", 500)
     }
 
 }

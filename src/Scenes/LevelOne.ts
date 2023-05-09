@@ -3,30 +3,21 @@ import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
 import Player from '../Objects/Player';
-import CommonPreload from './CommonPreload';
+import { CommonPreload } from './CommonPreload'; 
+
+class nextSceneInit {
+    private self: any = null
+    constructor(_self: any) {
+        this.self = _self
+    }
+    init() {
+        this.self
+    }
+}
 
 
 
 export default class LevelOne extends CommonPreload {
-
-    //Sprite creation
-    private switches?: Phaser.Physics.Arcade.Group;
-    private switchArray: Switch[] = [];
-    private buttons?: Phaser.Physics.Arcade.Group;
-    private buttonArray: Button[] = [];
-    private buttonArrayT: Button[] = [];
-    private gates?: Phaser.Physics.Arcade.Group;
-    private gateArray: Gate[] = [];
-    private platforms?: Phaser.Physics.Arcade.StaticGroup;
-    private boxes?: Phaser.Physics.Arcade.StaticGroup;
-    private player1?: Player;
-    private player2?: Player;
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-	//Scene Transition
-    private nextScene?: Phaser.GameObjects.Text;
-    private nextScene2?: Phaser.GameObjects.Text;
-
-
     constructor() {
         super('LevelOne')
     }
@@ -35,6 +26,7 @@ export default class LevelOne extends CommonPreload {
     create() {
         //Makes sky box
         this.add.image(400, 300, 'sky');
+        new nextSceneInit(this)
         //Carries the text from one scene to another
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
         this.nextScene2 = this.add.text(775, 210, '->', { color: '#ffffff' });
@@ -44,6 +36,9 @@ export default class LevelOne extends CommonPreload {
         // Sets scene physics (please move this)
         this.physics.add.group(this.nextScene)
         this.physics.add.group(this.nextScene2)
+
+        this.nextScene.setVisible(false)
+        this.nextScene2.setVisible(false)
 
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
@@ -334,17 +329,22 @@ export default class LevelOne extends CommonPreload {
         }
 
         for (let i = 0; i < this.buttonArray.length; i++) {
-            if (this.checkOverlap(this.buttonArray[i], this.player1!) == false && this.checkOverlap(this.buttonArray[i], this.player2!) == false) {
+            if (!this.checkOverlap(this.buttonArray[i], this.player1!) && !this.checkOverlap(this.buttonArray[i], this.player2!)) {
                 this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
                 this.buttonArray[i].setTexture("button")
             }
         }
 
         for (let i = 0; i < this.buttonArrayT.length; i++) {
-            if (this.checkOverlap(this.buttonArrayT[i], this.player1!) == false && this.checkOverlap(this.buttonArrayT[i], this.player2!) == false) {
+            if (!this.checkOverlap(this.buttonArrayT[i], this.player1!) && !this.checkOverlap(this.buttonArrayT[i], this.player2!)) {
                 this.gateArray[this.buttonArrayT[i].gateID].actives[this.buttonArrayT[i].buttonID] = false;
                 this.buttonArrayT[i].setTexture("button")
             }
+        }
+
+        if(this.gateArray.filter(object => object.body?.enable).length < 2) {
+            this.nextScene?.setVisible(true)
+            this.nextScene2?.setVisible(true)
         }
     }
 
