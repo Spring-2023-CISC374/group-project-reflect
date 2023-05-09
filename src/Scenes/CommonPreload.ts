@@ -71,7 +71,6 @@ export class LevelOne extends CommonPreload {
     // Sets scene physics (please move this)
     this.physics.add.group(this.nextScene)
     this.physics.add.group(this.nextScene2)
-
     this.nextScene.setVisible(false)
     this.nextScene2.setVisible(false)
 
@@ -307,7 +306,13 @@ export class LevelOne extends CommonPreload {
 
   // sence transition
   private handleLoadNextScene() {
-    this.scene.start('LevelThree')
+    if (this.gateArray.filter(object => object.body?.enable).length < 2) {
+      this.nextScene?.setVisible(true)
+      this.nextScene2?.setVisible(true)
+    }
+    if(this.nextScene?.visible && this.nextScene2?.visible) {
+      this.scene.start('LevelThree')
+    }
   }
 
   //ThreeScene
