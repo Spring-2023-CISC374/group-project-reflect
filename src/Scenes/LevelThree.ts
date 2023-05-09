@@ -4,29 +4,29 @@ import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
 import ButtonTrap from '../Objects/ButtonTrap';
 import Player from '../Objects/Player';
-import CommonPreload from './CommonPreload';
+import {CommonPreload} from './CommonPreload';
 
 
 
 export default class LevelThree extends CommonPreload {
 
     //Sprite creation
-    private switches?: Phaser.Physics.Arcade.Group;
-    private switchArray: Switch[] = [];
-    private buttons?: Phaser.Physics.Arcade.Group;
-    private buttonArray: Button[] = [];
-    private buttonsT?: Phaser.Physics.Arcade.Group;
-    private buttonArrayT: Button[] = [];
-    private gates?: Phaser.Physics.Arcade.Group;
-    private gateArray: Gate[] = [];
-    private platforms?: Phaser.Physics.Arcade.StaticGroup;
-    private boxes?: Phaser.Physics.Arcade.StaticGroup;
-    private player1?: Player;
-    private player2?: Player;
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-	//Scene Transition
-    private nextScene?: Phaser.GameObjects.Text;
-    private nextScene2?: Phaser.GameObjects.Text;
+  //   private switches?: Phaser.Physics.Arcade.Group;
+  //   private switchArray: Switch[] = [];
+  //   private buttons?: Phaser.Physics.Arcade.Group;
+  //   private buttonArray: Button[] = [];
+  //   private buttonsT?: Phaser.Physics.Arcade.Group;
+  //   private buttonArrayT: Button[] = [];
+  //   private gates?: Phaser.Physics.Arcade.Group;
+  //   private gateArray: Gate[] = [];
+  //   private platforms?: Phaser.Physics.Arcade.StaticGroup;
+  //   private boxes?: Phaser.Physics.Arcade.StaticGroup;
+  //   private player1?: Player;
+  //   private player2?: Player;
+  //   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+	// //Scene Transition
+  //   private nextScene?: Phaser.GameObjects.Text;
+  //   private nextScene2?: Phaser.GameObjects.Text;
 
 
     constructor() {
@@ -46,6 +46,8 @@ export default class LevelThree extends CommonPreload {
         // Sets scene physics (please move this)
         this.physics.add.group(this.nextScene)
         this.physics.add.group(this.nextScene2)
+        this.nextScene.setVisible(false)
+        this.nextScene2.setVisible(false)
 
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
@@ -407,6 +409,11 @@ export default class LevelThree extends CommonPreload {
                 this.gateArray[this.buttonArrayT[i].gateID].actives[this.buttonArrayT[i].buttonID] = false;
                 this.buttonArrayT[i].setTexture("button")
             }
+        }
+        console.log(413, this.gateArray[2].body?.enable);
+        if(!this.gateArray[2].body?.enable) {
+            this.nextScene?.setVisible(true)
+            this.nextScene2?.setVisible(true)
         }
     }
 

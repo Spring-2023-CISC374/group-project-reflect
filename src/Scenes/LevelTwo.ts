@@ -3,26 +3,10 @@ import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
 import Button from '../Objects/Button';
 import Player from '../Objects/Player';
-import CommonPreload from './CommonPreload'
+import {CommonPreload} from './CommonPreload';
 
 
 export default class LevelTwo extends CommonPreload {
-    //Sprite creation
-    private switches?: Phaser.Physics.Arcade.Group;
-    private switchArray: Switch[] = [];
-    private buttons?: Phaser.Physics.Arcade.Group;
-    private buttonArray: Button[] = [];
-    private gates?: Phaser.Physics.Arcade.Group;
-    private gateArray: Gate[] = [];
-    private platforms?: Phaser.Physics.Arcade.StaticGroup;
-    private boxes?: Phaser.Physics.Arcade.StaticGroup;
-    private player1?: Player;
-    private player2?: Player;
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-	//Scene Transition
-    private nextScene?: Phaser.GameObjects.Text;
-
-
     constructor() {
         super('LevelTwo')
     }
@@ -120,6 +104,7 @@ export default class LevelTwo extends CommonPreload {
 
         // Sets scene physics (please move this)
         this.physics.add.group(this.nextScene)
+        this.nextScene.setVisible(false);
 
         this.anims.create({
             key: "right",
@@ -178,7 +163,7 @@ export default class LevelTwo extends CommonPreload {
         this.gateArray[1].setScale(1.3)
         this.gateArray[2] = new Gate(this, 700, 480, "gate", 1);
         this.gateArray[2].setScale(2.5)
-        
+
         this.gateArray.forEach(object => {
             this.gates?.add(object);
         })
@@ -321,6 +306,9 @@ export default class LevelTwo extends CommonPreload {
                  this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
                  this.buttonArray[i].setTexture("button")
             }       
+        }
+        if(!this.gateArray.filter(object => object.body?.enable).length) {
+            this.nextScene?.setVisible(true)
         }
     }
 }
