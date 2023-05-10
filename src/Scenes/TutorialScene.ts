@@ -19,10 +19,10 @@ export default class TutorialScene extends BaseText {
         gateImage.setScale(0.5)
         this.add.text(300, 250, "Gate: Clear these to make progress").setOrigin(0, 1);
         
-        this.add.image(250, 300, 'blueswitch');
+        this.add.image(250, 300, 'switch');
         this.add.text(300, 300, "Switch: Once hit, turns on forever").setOrigin(0, 1);
         
-        this.add.image(250, 350, 'blueswitch');
+        this.add.image(250, 350, 'button');
         this.add.text(300, 350, "Button: Turns on only if stepped on").setOrigin(0, 1);
         
         this.add.image(250, 400, 'dude');
