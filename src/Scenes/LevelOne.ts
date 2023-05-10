@@ -281,8 +281,14 @@ export default class LevelOne extends CommonPreload {
 
     // sence transition
     private handleLoadNextScene() {
-        this.scene.start('LevelThree')
-    }
+        if (this.gateArray.filter(object => object.body?.enable).length < 2) {
+          this.nextScene?.setVisible(true)
+          this.nextScene2?.setVisible(true)
+        }
+        if(this.nextScene?.visible && this.nextScene2?.visible) {
+          this.scene.start('LevelThree')
+        }
+      }
     //ThreeScene
     //private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
     //this.scene.start('ThreeScene')
