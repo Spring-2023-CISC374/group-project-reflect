@@ -38,11 +38,11 @@ export class CommonPreload extends Phaser.Scene {
 
   preload() {
     this.load.image('sky', './assets/images/sky.png')
-    this.load.image("switch", "./assets/images/blueswitch.png");
-    this.load.image("switchA", "./assets/images/blueoff.png");
-    this.load.image("button", "./assets/images/redswitch.png");
-    this.load.image("buttonA", "./assets/images/redoff.png");
-    this.load.image("gate", "./assets/images/bluedoor.png");
+    this.load.image("switch", "./assets/images/redswitch.png");
+    this.load.image("switchA", "./assets/images/redoff.png");
+    this.load.image("button", "./assets/images/yellowswitch.png");
+    this.load.image("buttonA", "./assets/images/yellowoff.png");
+    this.load.image("gate", "./assets/images/reddoor.png");
     this.load.image("ground", "./assets/images/platform.png");
     this.load.image("gateA", "./assets/images/star.png");
     this.load.image("box", "./assets/images/box.png");

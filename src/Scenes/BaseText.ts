@@ -16,9 +16,9 @@ export default class BaseText extends Phaser.Scene {
 
     preload(){
         this.load.image('background','./assets/images/background.png' );
-        this.load.image("switch", "./assets/images/blueswitch.png");
-        this.load.image("button", "./assets/images/redswitch.png");
-        this.load.image("gate", "./assets/images/bluedoor.png");
+        this.load.image("switch", "./assets/images/redswitch.png");
+        this.load.image("button", "./assets/images/yellowswitch.png");
+        this.load.image("gate", "./assets/images/reddoor.png");
         this.load.image("ground", "./assets/images/platform.png");
         this.load.image("gateA", "./assets/images/star.png");
         // x0.05
