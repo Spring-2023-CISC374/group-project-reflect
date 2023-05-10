@@ -124,11 +124,13 @@ export default class LevelTwo extends CommonPreload {
 
         // array indexes (0, 1, 2) if true, open gate
         // by default all gates are true
-        this.switchArray.push(new Switch(this, 460, 500, "switch", 2, 0))
-        this.switchArray.push(new Switch(this, 460, 250, "switch", 1, 0))
-        this.switchArray.push(new Switch(this, 400, 350, "switch", 0, 0))
+        this.switchArray.push(new Switch(this, 460, 525, "switch", 2, 0))
+        this.switchArray.push(new Switch(this, 460, 255, "switch", 1, 0))
+        this.switchArray.push(new Switch(this, 400, 440, "switch", 0, 0))
         this.switches = this.physics.add.group({
             key: "switch",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
         //  setXY: { x: 700, y: 60 }
         })
@@ -189,6 +191,8 @@ export default class LevelTwo extends CommonPreload {
         //this.buttonArray.push(new Button(this, 400, 350, "button", 1, 0))
         this.buttons = this.physics.add.group({
             key: "button",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
         })
 

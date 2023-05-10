@@ -10,25 +10,6 @@ import {CommonPreload} from './CommonPreload';
 
 export default class LevelThree extends CommonPreload {
 
-    //Sprite creation
-  //   private switches?: Phaser.Physics.Arcade.Group;
-  //   private switchArray: Switch[] = [];
-  //   private buttons?: Phaser.Physics.Arcade.Group;
-  //   private buttonArray: Button[] = [];
-  //   private buttonsT?: Phaser.Physics.Arcade.Group;
-  //   private buttonArrayT: Button[] = [];
-  //   private gates?: Phaser.Physics.Arcade.Group;
-  //   private gateArray: Gate[] = [];
-  //   private platforms?: Phaser.Physics.Arcade.StaticGroup;
-  //   private boxes?: Phaser.Physics.Arcade.StaticGroup;
-  //   private player1?: Player;
-  //   private player2?: Player;
-  //   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-	// //Scene Transition
-  //   private nextScene?: Phaser.GameObjects.Text;
-  //   private nextScene2?: Phaser.GameObjects.Text;
-
-
     constructor() {
         super('LevelThree')
     }
@@ -167,6 +148,8 @@ export default class LevelThree extends CommonPreload {
         // by default all gates are true
         this.switches = this.physics.add.group({
             key: "switch",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
             //  setXY: { x: 700, y: 60 }
         })
@@ -241,24 +224,28 @@ export default class LevelThree extends CommonPreload {
         this.buttonArray = []
         this.buttonArrayT = []
 
-        this.buttonArray.push(new Button(this, 100, 230, "button", 0, 0))
-        this.buttonArray.push(new Button(this, 100, 480, "button", 0, 1))
-        this.buttonArray.push(new Button(this, 100, 230, "button", 1, 0))
-        this.buttonArray.push(new Button(this, 100, 480, "button", 1, 1))
+        this.buttonArray.push(new Button(this, 100, 250, "button", 0, 0))
+        this.buttonArray.push(new Button(this, 100, 525, "button", 0, 1))
+        this.buttonArray.push(new Button(this, 100, 250, "button", 1, 0))
+        this.buttonArray.push(new Button(this, 100, 525, "button", 1, 1))
 
-        this.buttonArray.push(new Button(this, 460, 500, "button", 2, 1))
+        this.buttonArray.push(new Button(this, 460, 525, "button", 2, 1))
 
-        this.buttonArrayT.push(new ButtonTrap(this, 460, 500, "button", 1, 1))
+        this.buttonArrayT.push(new ButtonTrap(this, 460, 525, "button", 1, 1))
 
-        this.buttonArrayT.push(new ButtonTrap(this, 400, 230, "button", 0, 1))
+        this.buttonArrayT.push(new ButtonTrap(this, 400, 250, "button", 0, 1))
 
         this.buttons = this.physics.add.group({
             key: "button",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
         })
 
         this.buttonsT = this.physics.add.group({
             key: "button",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
         })
 
