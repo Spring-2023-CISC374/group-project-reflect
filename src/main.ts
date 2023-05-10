@@ -4,11 +4,11 @@ import StartScreen from "./Scenes/StartScreen";
 import TutorialScene from './Scenes/TutorialScene';
 import EndScene from './Scenes/EndScene';
 
-// import LevelOne from './Scenes/LevelOne'
-// import LevelTwo from './Scenes/LevelTwo'
-// import LevelThree from './Scenes/LevelThree'
+import LevelOne from './Scenes/LevelOne'
+import LevelTwo from './Scenes/LevelTwo'
+import LevelThree from './Scenes/LevelThree'
 
-import {LevelOne, LevelTwo, LevelThree} from './Scenes/CommonPreload'
+//import {LevelOne, LevelTwo, LevelThree} from './Scenes/CommonPreload'
 
 
 const config: Phaser.Types.Core.GameConfig = {

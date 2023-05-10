@@ -127,10 +127,12 @@ export default class LevelOne extends CommonPreload {
 
         // array indexes (0, 1, 2) if true, open gate
         // by default all gates are true
-        this.switchArray.push(new Switch(this, 700, 60, "switch", 1, 1)) //false, true, false
-        this.switchArray.push(new Switch(this, 700, 60, "switch", 2, 1))
+        this.switchArray.push(new Switch(this, 700, 70, "switch", 1, 1)) //false, true, false
+        this.switchArray.push(new Switch(this, 700, 70, "switch", 2, 1))
         this.switches = this.physics.add.group({
             key: "switch",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
             //  setXY: { x: 700, y: 60 }
         })
@@ -204,9 +206,11 @@ export default class LevelOne extends CommonPreload {
         //Code related to buttons
         this.buttonArray = []
         this.buttonArray.push(new Button(this, 480, 250, "button", 1, 0))
-        this.buttonArray.push(new Button(this, 300, 500, "button", 2, 0))
+        this.buttonArray.push(new Button(this, 300, 525, "button", 2, 0))
         this.buttons = this.physics.add.group({
             key: "button",
+            immovable: true,
+            allowGravity: false,
             setXY: { x: -480, y: 250 }
         })
 
