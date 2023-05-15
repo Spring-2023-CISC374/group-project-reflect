@@ -11,9 +11,10 @@ export default class TutorialScene extends BaseText {
         this.add.image(400, 300, 'background');   
         this.add.text(this.cameras.main.centerX, this.cameras.main.centerY * 0.25, 'Reflect instructions', { fontSize: '32px' }).setOrigin(0.5, 0.5);
 
-        this.addTextButton('Level 1', 'LevelTwo', 250)
-        this.addTextButton("Level 2", "LevelOne", 300)
-        this.addTextButton("Level 3", "LevelThree", 350)
+        this.addTextButton('Play Game', 'LevelZero', 250);
+        //this.addTextButton('Level 1', 'LevelTwo', 250)
+        //this.addTextButton("Level 2", "LevelOne", 300)
+        //this.addTextButton("Level 3", "LevelThree", 350)
         
         const gateImage = this.add.image(250, 250, 'gate');
         gateImage.setScale(0.5)
