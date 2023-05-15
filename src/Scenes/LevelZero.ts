@@ -265,7 +265,7 @@ export default class LevelOne extends CommonPreload {
 
     // sence transition
     private handleLoadNextScene() {
-        this.scene.start('LevelOne')
+        this.scene.start('LevelTwo')
     }
     //ThreeScene
     //private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
