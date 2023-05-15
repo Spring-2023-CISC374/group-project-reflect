@@ -42,9 +42,9 @@ export default class LevelOne extends CommonPreload {
         this.boxes = this.physics.add.staticGroup()
         this.add.text(350, 10, 'Warm up', { color: '#black' });
         this.add.text(450, 510, 'move to next =》', { color: '#black' });
-        this.add.text(630, 25, "2nd collect this", { color: 'black' });
+        this.add.text(630, 25, "2nd hit this", { color: 'black' });
         this.add.text(350, 390, "1st jump on this", { color: 'black' });
-        this.add.text(100, 470, "3rt touch this", { color: 'black' });
+        this.add.text(100, 470, "3rt active this", { color: 'black' });
         this.add.text(10, 450, "you", { color: 'black' });
         //Add Base Ground and Box
         const ground = this.platforms.create(400, 568, "ground") as Phaser.Physics.Arcade.Sprite
