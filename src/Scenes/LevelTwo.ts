@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import Gate from "../Objects/Gate";
 import Switch from "../Objects/Switch";
-import Button from '../Objects/Button';
 import Player from '../Objects/Player';
 import {CommonPreload} from './CommonPreload';
 
@@ -29,9 +28,6 @@ export default class LevelTwo extends CommonPreload {
         const ground = this.platforms.create(400, 568, "ground") as Phaser.Physics.Arcade.Sprite
         ground.setScale(2)
         ground.refreshBody()
-        //const box = this.boxes.create(200, 525, "box") as Phaser.Physics.Arcade.Sprite
-        //box.setScale(0.05)
-        //box.refreshBody()
 
         //Add Higher Ground for the other sprite
         this.platforms.create(200, 280,"ground")
@@ -187,8 +183,6 @@ export default class LevelTwo extends CommonPreload {
 
         //Code related to buttons
         this.buttonArray = []
-        //this.buttonArray.push(new Button(this, 460, 250, "button", 2, 0))
-        //this.buttonArray.push(new Button(this, 400, 350, "button", 1, 0))
         this.buttons = this.physics.add.group({
             key: "button",
             immovable: true,
@@ -227,92 +221,13 @@ export default class LevelTwo extends CommonPreload {
         });
     }
 
-    //Handle buttons
-    private handleHitButton(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, b: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_button = b as Button
-        this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
-        this.handleActivateGate(the_button.gateID);
-        the_button.setTexture('buttonA')
-    }
-
-    private handleHitSwitch(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, s: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_switch = s as Switch
-        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
-        this.handleActivateGate(the_switch.gateID);
-        the_switch.setTexture("switchA")
-    }
-
-    handleActivateGate(gateID: number){
-        if(this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]){
-            this.gateArray[gateID].disableBody(true,true)
-        }
-        return;
-    }
-
 	// sence transition
     private handleLoadNextScene() {
         this.scene.start('LevelOne')
     }
-	//ThreeScene
-	//private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-        //this.scene.start('ThreeScene')
-    //}
 
-    //Test code related to buttons
-    private checkOverlap(button: Button, sprite: Phaser.Physics.Arcade.Sprite) {
-        const bounds_player = sprite.getBounds();
-        const bounds_button = button.getBounds();
-        return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
-	}
 
     update() {
-        if (!this.cursors) {
-            return
-        }
-
-        if (this.cursors?.left.isDown) {
-            this.player1?.setVelocityX(-160)
-            this.player1?.anims.play("left", true)
-            this.player2?.setVelocityX(-160)
-            this.player2?.anims.play("left", true)
-
-        } else if (this.cursors?.right.isDown) {
-            this.player1?.setVelocityX(160)
-            this.player1?.anims.play("right", true)
-            this.player2?.setVelocityX(160)
-            this.player2?.anims.play("right", true)
-        }
-        else if(this.cursors?.down.isDown){
-            this.player1?.setVelocityY(400);
-            this.player1?.anims.play('turn', true)
-            this.player2?.setVelocityY(400);
-            this.player2?.anims.play('turn', true)
-        }
-        else {
-            this.player1?.setVelocityX(0)
-            this.player1?.anims.play("turn")
-            this.player2?.setVelocityX(0)
-            this.player2?.anims.play("turn")
-        }
-
-        if (this.cursors.up?.isDown && this.player1?.body?.touching.down) {
-            this.player1.setVelocityY(-330)
-        }
-
-        if (this.cursors.up?.isDown && this.player2?.body?.touching.down) {
-            this.player2.setVelocityY(-330)
-        }
-        
-        for(let i = 0; i < this.buttonArray.length; i++){
-            if(this.checkOverlap(this.buttonArray[i], this.player1!) == false && this.checkOverlap(this.buttonArray[i], this.player2!) == false){
-                 this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
-                 this.buttonArray[i].setTexture("button")
-            }       
-        }
-        if(!this.gateArray.filter(object => object.body?.enable).length) {
-            this.nextScene?.setVisible(true)
-        }
+        super.update();
     }
 }
