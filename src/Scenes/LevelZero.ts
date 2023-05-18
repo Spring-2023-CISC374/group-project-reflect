@@ -17,7 +17,7 @@ class nextSceneInit {
 
 
 
-export default class LevelOne extends CommonPreload {
+export default class LevelZero extends CommonPreload {
     constructor() {
         super('LevelZero')
     }
@@ -40,12 +40,17 @@ export default class LevelOne extends CommonPreload {
         //Add static groups
         this.platforms = this.physics.add.staticGroup()
         this.boxes = this.physics.add.staticGroup()
-        this.add.text(350, 10, 'Warm up', { color: '#black' });
-        this.add.text(450, 510, 'move to next =》', { color: '#black' });
-        this.add.text(630, 25, "2nd hit this", { color: 'black' });
-        this.add.text(350, 390, "1st jump on this", { color: 'black' });
-        this.add.text(100, 470, "3rt active this", { color: 'black' });
-        this.add.text(10, 450, "you", { color: 'black' });
+
+        //Add additional tutorial text
+        this.add.text(350, 10, 'Tutorial Stage', { color: '#black' });
+        this.add.text(450, 490, 'All 3 steps completed?', { color: '#black' });
+        this.add.text(450, 510, 'The gate should be open!', { color: '#black' });
+        this.add.text(600, 25, "2nd hit the switch", { color: 'black' });
+        this.add.text(325, 390, "1st jump on the boxes", { color: 'black' });
+        this.add.text(90, 430, "3rd step on the button", { color: 'black' });
+        this.add.text(10, 450, "The player", { color: 'black' });
+        this.add.text(10, 470, "character", { color: 'black' });
+
         //Add Base Ground and Box
         const ground = this.platforms.create(400, 568, "ground") as Phaser.Physics.Arcade.Sprite
         ground.setScale(2)
@@ -121,8 +126,8 @@ export default class LevelOne extends CommonPreload {
 
         // array indexes (0, 1, 2) if true, open gate
         // by default all gates are true
-        this.switchArray.push(new Switch(this, 700, 70, "switch", 1, 1)) //false, true, false
-        this.switchArray.push(new Switch(this, 700, 70, "switch", 2, 1))
+        this.switchArray.push(new Switch(this, 700, 100, "switch", 1, 1)) //false, true, false
+        this.switchArray.push(new Switch(this, 700, 100, "switch", 2, 1))
         this.switches = this.physics.add.group({
             key: "switch",
             immovable: true,
@@ -230,94 +235,14 @@ export default class LevelOne extends CommonPreload {
 
     }
 
-    //Handle buttons
-    private handleHitButton(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, b: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_button = b as Button
-        this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
-        this.handleActivateGate(the_button.gateID);
-        the_button.setTexture('buttonA')
-    }
-
-    private handleHitSwitch(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, s: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_switch = s as Switch
-        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
-        this.handleActivateGate(the_switch.gateID);
-        the_switch.setTexture("switchA")
-    }
-
-    handleActivateGate(gateID: number) {
-        if (this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]) {
-            this.gateArray[gateID].disableBody(true, true)
-        }
-        return;
-    }
-
-    handleDeactivateGate(gateID: number) {
-        if (this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]) {
-            return;
-        }
-        else{
-            this.gateArray[gateID].enableBody(false, this.gateArray[gateID].x, this.gateArray[gateID].y, true, true)
-        }
-    }
 
     // sence transition
     private handleLoadNextScene() {
         this.scene.start('LevelTwo')
     }
-    //ThreeScene
-    //private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-    //this.scene.start('ThreeScene')
-    //}
 
-    //Test code related to buttons
-    private checkOverlap(button: Button, sprite: Phaser.Physics.Arcade.Sprite) {
-        const bounds_player = sprite.getBounds();
-        const bounds_button = button.getBounds();
-        return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
-    }
 
     update() {
-        if (!this.cursors) {
-            return
-        }
-
-        if (this.cursors?.left.isDown) {
-            this.player1?.setVelocityX(-160)
-            this.player1?.anims.play("left", true)
-
-
-        } else if (this.cursors?.right.isDown) {
-            this.player1?.setVelocityX(160)
-            this.player1?.anims.play("right", true)
-
-        }
-        else if(this.cursors?.down.isDown){
-            this.player1?.setVelocityY(400);
-            this.player1?.anims.play('turn', true)
-
-        }
-        else {
-            this.player1?.setVelocityX(0)
-            this.player1?.anims.play("turn")
-
-        }
-
-        if (this.cursors.up?.isDown && this.player1?.body?.touching.down) {
-            this.player1.setVelocityY(-330)
-        }
-
-        
-        for(let i = 0; i < this.buttonArray.length; i++){
-            if(this.checkOverlap(this.buttonArray[i], this.player1!) == false && this.checkOverlap(this.buttonArray[i], this.player1!) == false){
-                 this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
-                 this.buttonArray[i].setTexture("button")
-            }       
-        }
-        if(!this.gateArray.filter(object => object.body?.enable).length) {
-            this.nextScene?.setVisible(true)
-        }
+        super.update();
     }
 }

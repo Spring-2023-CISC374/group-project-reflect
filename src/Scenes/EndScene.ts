@@ -8,8 +8,6 @@ export default class EndScene extends BaseText {
 
         super.create();
 
-
-        //this.addTextButton("Start Tutorial Again", 'TutorialScene', 400)
         this.addTextButton("Start Over", "LevelTwo", 500)
     }
 

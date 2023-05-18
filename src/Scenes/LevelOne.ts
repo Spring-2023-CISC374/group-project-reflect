@@ -15,8 +15,6 @@ class nextSceneInit {
     }
 }
 
-
-
 export default class LevelOne extends CommonPreload {
     constructor() {
         super('LevelOne')
@@ -134,14 +132,12 @@ export default class LevelOne extends CommonPreload {
             immovable: true,
             allowGravity: false,
             setXY: { x: -480, y: 250 }
-            //  setXY: { x: 700, y: 60 }
         })
 
         this.switchArray.forEach(object => {
             this.switches?.add(object);
         })
 
-        // this.switches.add(switch0)
         this.physics.add.collider(this.switches, this.platforms)
         this.physics.add.overlap(this.player1, this.switches, this.handleHitSwitch, undefined, this)
         this.physics.add.overlap(this.player2, this.switches, this.handleHitSwitch, undefined, this)
@@ -246,38 +242,6 @@ export default class LevelOne extends CommonPreload {
 
     }
 
-    //Handle buttons
-    private handleHitButton(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, b: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_button = b as Button
-        this.gateArray[the_button.gateID].actives[the_button.buttonID] = true;
-        this.handleActivateGate(the_button.gateID);
-        the_button.setTexture('buttonA')
-    }
-
-    private handleHitSwitch(p: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, s: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        p;
-        const the_switch = s as Switch
-        this.gateArray[the_switch.gateID].actives[the_switch.switchID] = true;
-        this.handleActivateGate(the_switch.gateID);
-        the_switch.setTexture("switchA")
-    }
-
-    handleActivateGate(gateID: number) {
-        if (this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]) {
-            this.gateArray[gateID].disableBody(true, true)
-        }
-        return;
-    }
-
-    handleDeactivateGate(gateID: number) {
-        if (this.gateArray[gateID].actives[0] && this.gateArray[gateID].actives[1] && this.gateArray[gateID].actives[2]) {
-            return;
-        }
-        else{
-            this.gateArray[gateID].enableBody(false, this.gateArray[gateID].x, this.gateArray[gateID].y, true, true)
-        }
-    }
 
     // sence transition
     private handleLoadNextScene() {
@@ -289,73 +253,10 @@ export default class LevelOne extends CommonPreload {
           this.scene.start('LevelThree')
         }
       }
-    //ThreeScene
-    //private handleLoadNextScene(player1: Phaser.GameObjects.GameObject, sA: Phaser.GameObjects.GameObject) {
-    //this.scene.start('ThreeScene')
-    //}
 
-    //Test code related to buttons
-    private checkOverlap(button: Button, sprite: Phaser.Physics.Arcade.Sprite) {
-        const bounds_player = sprite.getBounds();
-        const bounds_button = button.getBounds();
-        return Phaser.Geom.Intersects.RectangleToRectangle(bounds_player, bounds_button);
-    }
+
     update() {
-        if (!this.cursors) {
-            return
-        }
-
-        if (this.cursors?.left.isDown) {
-            this.player1?.setVelocityX(-160)
-            this.player1?.anims.play("left", true)
-            this.player2?.setVelocityX(-160)
-            this.player2?.anims.play("left", true)
-
-        } else if (this.cursors?.right.isDown) {
-            this.player1?.setVelocityX(160)
-            this.player1?.anims.play("right", true)
-            this.player2?.setVelocityX(160)
-            this.player2?.anims.play("right", true)
-        }
-        else if (this.cursors?.down.isDown) {
-            this.player1?.setVelocityY(400);
-            this.player1?.anims.play('turn', true)
-            this.player2?.setVelocityY(400);
-            this.player2?.anims.play('turn', true)
-        }
-        else {
-            this.player1?.setVelocityX(0)
-            this.player1?.anims.play("turn")
-            this.player2?.setVelocityX(0)
-            this.player2?.anims.play("turn")
-        }
-
-        if (this.cursors.up?.isDown && this.player1?.body?.touching.down) {
-            this.player1.setVelocityY(-330)
-        }
-
-        if (this.cursors.up?.isDown && this.player2?.body?.touching.down) {
-            this.player2.setVelocityY(-330)
-        }
-
-        for (let i = 0; i < this.buttonArray.length; i++) {
-            if (!this.checkOverlap(this.buttonArray[i], this.player1!) && !this.checkOverlap(this.buttonArray[i], this.player2!)) {
-                this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
-                this.buttonArray[i].setTexture("button")
-            }
-        }
-
-        for (let i = 0; i < this.buttonArrayT.length; i++) {
-            if (!this.checkOverlap(this.buttonArrayT[i], this.player1!) && !this.checkOverlap(this.buttonArrayT[i], this.player2!)) {
-                this.gateArray[this.buttonArrayT[i].gateID].actives[this.buttonArrayT[i].buttonID] = false;
-                this.buttonArrayT[i].setTexture("button")
-            }
-        }
-
-        if(this.gateArray.filter(object => object.body?.enable).length < 2) {
-            this.nextScene?.setVisible(true)
-            this.nextScene2?.setVisible(true)
-        }
+        super.update();
     }
 
 }

@@ -20,7 +20,7 @@ export default class StartScreen extends BaseText {
         }, 300)
         game.play(true)
         this.addTextButton("Start Tutorial", "TutorialScene", 700)
-        this.addTextButton("Play Game", "LevelOne", 800)
+        this.addTextButton("Play Game", "LevelTwo", 800)
         
         // this.load.image("gateA", "./assets/images/star.png");
 
