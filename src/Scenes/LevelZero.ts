@@ -5,7 +5,15 @@ import Button from '../Objects/Button';
 import Player from '../Objects/Player';
 import { CommonPreload } from './CommonPreload'; 
 
-
+class nextSceneInit {
+    private self: any = null
+    constructor(_self: any) {
+        this.self = _self
+    }
+    init() {
+        this.self
+    }
+}
 
 export default class LevelZero extends CommonPreload {
     constructor() {
@@ -16,6 +24,7 @@ export default class LevelZero extends CommonPreload {
     create() {
         //Makes sky box
         this.add.image(400, 300, 'background');
+        new nextSceneInit(this)
         //Carries the text from one scene to another
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
 
