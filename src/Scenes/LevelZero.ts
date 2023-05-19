@@ -5,16 +5,6 @@ import Button from '../Objects/Button';
 import Player from '../Objects/Player';
 import { CommonPreload } from './CommonPreload'; 
 
-class nextSceneInit {
-    private self: any = null
-    constructor(_self: any) {
-        this.self = _self
-    }
-    init() {
-        this.self
-    }
-}
-
 
 
 export default class LevelZero extends CommonPreload {
@@ -26,7 +16,6 @@ export default class LevelZero extends CommonPreload {
     create() {
         //Makes sky box
         this.add.image(400, 300, 'background');
-        new nextSceneInit(this)
         //Carries the text from one scene to another
         this.nextScene = this.add.text(775, 510, '->', { color: '#ffffff' });
 
@@ -78,10 +67,6 @@ export default class LevelZero extends CommonPreload {
         this.player1.setCollideWorldBounds(true)
         this.physics.add.collider(this.player1, this.platforms)
         this.physics.add.collider(this.player1, this.boxes)
-
-
-
-
 
 
         this.anims.create({
@@ -243,6 +228,44 @@ export default class LevelZero extends CommonPreload {
 
 
     update() {
-        super.update();
+        if (!this.cursors) {
+            return
+        }
+
+        if (this.cursors?.left.isDown) {
+            this.player1?.setVelocityX(-160)
+            this.player1?.anims.play("left", true)
+
+
+        } else if (this.cursors?.right.isDown) {
+            this.player1?.setVelocityX(160)
+            this.player1?.anims.play("right", true)
+
+        }
+        else if(this.cursors?.down.isDown){
+            this.player1?.setVelocityY(400);
+            this.player1?.anims.play('turn', true)
+
+        }
+        else {
+            this.player1?.setVelocityX(0)
+            this.player1?.anims.play("turn")
+
+        }
+
+        if (this.cursors.up?.isDown && this.player1?.body?.touching.down) {
+            this.player1.setVelocityY(-330)
+        }
+
+
+        for(let i = 0; i < this.buttonArray.length; i++){
+            if(this.checkOverlap(this.buttonArray[i], this.player1!) == false && this.checkOverlap(this.buttonArray[i], this.player1!) == false){
+                 this.gateArray[this.buttonArray[i].gateID].actives[this.buttonArray[i].buttonID] = false;
+                 this.buttonArray[i].setTexture("button")
+            }       
+        }
+        if(!this.gateArray.filter(object => object.body?.enable).length) {
+            this.nextScene?.setVisible(true)
+        }
     }
 }

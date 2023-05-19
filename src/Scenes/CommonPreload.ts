@@ -141,7 +141,7 @@ update() {
 
 export class LevelZero extends CommonPreload {
   constructor() {
-    super('LevelOne')
+    super('LevelZero')
   }
 
 }

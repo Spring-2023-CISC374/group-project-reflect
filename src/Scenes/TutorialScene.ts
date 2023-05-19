@@ -11,7 +11,7 @@ export default class TutorialScene extends BaseText {
         this.add.image(400, 300, 'background');   
         this.add.text(this.cameras.main.centerX, this.cameras.main.centerY * 0.25, 'Reflect Instructions', { fontSize: '32px' }).setOrigin(0.5, 0.5);
 
-        this.addTextButton('Play Game', 'LevelZero', 250);
+        this.addTextButton('Play Tutorial', 'LevelZero', 250);
 
         this.add.text(300, 200, "Move: use 4 arrow keys").setOrigin(0, 1);
 
